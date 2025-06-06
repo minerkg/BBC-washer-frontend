@@ -1,18 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+/* src/styles.css */
+@import "primeng/resources/themes/saga-blue/theme.css"; /* You can choose another theme */
+@import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
-@import "primeflex/primeflex.css";
+@import "primeflex/primeflex.css"; /* Make sure PrimeFlex is installed and imported */
 
-body {
-   
-        margin: 0;
-        top: 0;
-        height: 100vh;
-        background-image: url("assets/campus.jpg");
-        background-repeat: no-repeat;
-        background-size: contain;     /* Afișează toată imaginea, fără zoom/tăiere */
-        background-position: center;  /* Centrează imaginea */
-        background-color: black;      /* Fundal pentru zonele goale */
+/* Basic styling to make the full page background work for the login/register components */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family); /* Or your preferred font */
 }
-   
+#root { /* Or whatever your main app element is, usually app-root */
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}

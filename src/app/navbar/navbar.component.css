@@ -1,0 +1,6 @@
+/* src/app/navbar/navbar.component.css */
+.navbar-brand h1 {
+  margin: 0; /* Remove default margin from h1 */
+  font-size: 1.8rem; /* Adjust font size as needed */
+  color: #FFD700; /* Example: Gold color for the text */
+}

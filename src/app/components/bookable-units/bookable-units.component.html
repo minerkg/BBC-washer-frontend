@@ -1,0 +1,31 @@
+<div class="flex flex-column align-items-center justify-content-center p-5">
+  <h2>Available Washable Units</h2>
+
+  <div *ngIf="bookableUnits && bookableUnits.length > 0; else noUnits">
+    <div class="grid p-fluid">
+      <div *ngFor="let unit of bookableUnits" class="col-12 md:col-6 lg:col-4 xl:col-3">
+        <p-card header="Unit ID: {{ unit.id }}" [subheader]="'Washer: ' + (unit.washer?.name || 'N/A')" styleClass="p-shadow-3 mb-3">
+          <ng-template pTemplate="content">
+            <p><strong>Washer Capacity:</strong> {{ unit.washer?.capacity }} kg</p>
+            <p><strong>Washer Status:</strong> {{ unit.washer?.status }}</p>
+            <p><strong>Time Slot:</strong> {{ unit.timeSlot?.timeInterval?.startTime | date:'short' }} - {{ unit.timeSlot?.timeInterval?.endTime | date:'shortTime' }}</p>
+            <p><strong>Date:</strong> {{ unit.timeSlot?.timeInterval?.date | date:'mediumDate' }}</p>
+            <p><strong>Availability:</strong> <span [ngClass]="{'text-green-500': unit.isAvailable, 'text-red-500': !unit.isAvailable}">{{ unit.isAvailable ? 'Available' : 'Unavailable' }}</span></p>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <p-button label="Book Now" icon="pi pi-check" [disabled]="!unit.isAvailable" (onClick)="bookUnit(unit.id)" />
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #noUnits>
+    <div class="p-message p-message-info mt-5" style="display: block;">
+      <div class="p-message-wrapper">
+        <span class="p-message-icon pi pi-info-circle"></span>
+        <span class="p-message-text">No available bookable units found for the next week.</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<p-toast></p-toast>

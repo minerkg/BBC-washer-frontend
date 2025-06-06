@@ -1,37 +1,18 @@
+// src/app/navbar/navbar.component.ts
 import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { FormsModule } from '@angular/forms';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { RouterModule } from '@angular/router'; // Import RouterModule for routerLink
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ButtonModule,DialogModule, InputTextModule,PasswordModule,FormsModule,FloatLabelModule],
+  imports: [
+    ButtonModule,
+    RouterModule // Added RouterModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
-  visible: boolean = false;
-  username: string = '';
-  password: string = '';
-
-  showDialog(){
-    this.visible = true;
-    console.log("clicked")
-  }
-  closeDialog(){
-    this.visible = false;
-  }
-
-  logIn(){
-    
-    console.log({username: this.username, password: this.password})
-    this.visible = false;
-  }
-
-
+  // No more visible property or dialog-related methods here
 }
