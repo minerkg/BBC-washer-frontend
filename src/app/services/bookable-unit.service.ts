@@ -20,14 +20,9 @@ export class BookableUnitService {
    * Requires authentication (Basic Auth header).
    */
   getAllAvailableBookableUnits(): Observable<any> {
-    const authHeaderValue = this.authService.getBasicAuthHeader(); // Get the header value
-    console.log('DEBUG BookableUnitService: Auth header for /bookable-units:', authHeaderValue); // <--- THIS DEBUG LOG MUST BE PRESENT
-
-    const headers = new HttpHeaders({
-      'Authorization': authHeaderValue || '' // Ensure header is properly set
-    });
-    // The backend endpoint is GET /bookable-units
-    return this.http.get(`${this.API_BASE_URL}/bookable-units`, { headers: headers,observe: 'response' });
+    const headers = this.authService.getAuthHeaders(); // Get the header value
+    
+    return this.http.get<any>(`${this.API_BASE_URL}/bookable-units`, {headers});
   }
 
   /**

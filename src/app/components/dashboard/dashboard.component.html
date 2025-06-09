@@ -1,14 +1,7 @@
-<div class="flex flex-column align-items-center justify-content-center min-h-screen" style="background-color: var(--surface-a);">
-  <p-card header="Welcome to the Dashboard!" styleClass="p-shadow-24" [style]="{width: '500px', textAlign: 'center'}">
-    <p>You have successfully logged in.</p>
-    <p>This is a placeholder for your authenticated content.</p>
-    <div class="p-d-flex p-flex-column p-mt-3">
-      <p-button label="View Available Washers" routerLink="/washers" class="p-mb-2" />
-      <p-button label="My Reservations" routerLink="/my-reservations" class="p-mb-2" />
-      <p-button *ngIf="isAdmin" label="Manage Washers (Admin)" routerLink="/admin/washers" styleClass="p-button-warning p-mt-4" />
-    </div>
-    <div class="p-mt-4">
-      <p-button label="Logout" (onClick)="logout()" icon="pi pi-power-off" styleClass="p-button-danger" />
-    </div>
-  </p-card>
+<div class="navbar">
+  <app-navbar></app-navbar>
 </div>
+<router-outlet>
+  
+
+</router-outlet>

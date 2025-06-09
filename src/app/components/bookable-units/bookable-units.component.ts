@@ -31,14 +31,15 @@ export class BookableUnitsComponent implements OnInit {
     private bookableUnitService: BookableUnitService,
     private messageService: MessageService,
     private authService: AuthService // AuthService is injected here
-  ) { }
+  ) {
+
+   }
 
   ngOnInit(): void {
     // This part ensures loadAvailableBookableUnits() is called only when a role is available
     this.authService.currentUserRole.subscribe(role => {
-      if (role) { // User is logged in (has any role)
-        // IMPORTANT: In a real app, the ID should come from a secure token or /user/me endpoint.
-        // Mocking IDs for now to proceed with functionality testing
+      console.log(role + "<-------------s------ THIS IS THE ROLE")
+      
         if (role === 'ADMIN') {
           this.currentUserId = 1; // Adjust if your admin ID is different
         } else if (role === 'USER') {
@@ -53,10 +54,6 @@ export class BookableUnitsComponent implements OnInit {
         } else {
           this.messageService.add({severity:'warn', summary:'Warning', detail:'Could not determine user ID for booking. Please log in again.'});
         }
-      } else {
-        console.log('BookableUnitsComponent: User is not authenticated, cannot load units.');
-        this.messageService.add({severity:'warn', summary:'Warning', detail:'Please log in to view bookable units.'});
-      }
     });
 
   }

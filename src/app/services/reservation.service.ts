@@ -20,9 +20,7 @@ export class ReservationService {
    * Requires authentication.
    */
   getAllReservationsByUser(userId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': this.authService.getBasicAuthHeader() || ''
-    });
+    const headers = this.authService.getAuthHeaders();
     // The backend endpoint is GET /reservation/{userId}
     return this.http.get(`${this.API_BASE_URL}/reservation/${userId}`, { headers: headers });
   }

@@ -10,10 +10,11 @@ import { WasherManagementComponent } from './components/admin/washer-management/
 export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'washers', component: BookableUnitsComponent },
-  { path: 'my-reservations', component: MyReservationsComponent },
-  { path: 'admin/washers', component: WasherManagementComponent },
+  { path: 'dashboard', component: DashboardComponent, children:[
+    {path:'washers', component: BookableUnitsComponent},
+    { path: 'my-reservations', component: MyReservationsComponent },
+    { path: 'admin/washers', component: WasherManagementComponent }
+  ]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // IMPORTANT: We'll add route guards here later to protect routes
 ];
