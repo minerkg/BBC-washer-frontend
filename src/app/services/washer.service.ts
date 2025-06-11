@@ -38,4 +38,9 @@ export class WasherService {
     const headers = this.authService.getAuthHeaders(false);
     return this.http.delete(`${this.API_BASE_URL}/admin/washers/${id}`, { headers });
   }
+
+  getAllAvailableWashers(): Observable<any>{
+    const headers = this.authService.getAuthHeaders(false);
+    return this.http.get(`${this.API_BASE_URL}/admin/washers/available/all`,{headers})
+  }
 }

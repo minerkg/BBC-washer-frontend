@@ -1,31 +1,118 @@
 <div class="flex flex-column align-items-center justify-content-center p-5">
-  <h2>Available Washable Units</h2>
+  <h2>Book a Washing Machine</h2>
 
-  <div *ngIf="bookableUnits && bookableUnits.length > 0; else noUnits">
-    <div class="grid p-fluid">
-      <div *ngFor="let unit of bookableUnits" class="col-12 md:col-6 lg:col-4 xl:col-3">
-        <p-card header="Unit ID: {{ unit.id }}" [subheader]="'Washer: ' + (unit.washer?.name || 'N/A')" styleClass="p-shadow-3 mb-3">
-          <ng-template pTemplate="content">
-            <p><strong>Washer Capacity:</strong> {{ unit.washer?.capacity }} kg</p>
-            <p><strong>Washer Status:</strong> {{ unit.washer?.status }}</p>
-            <p><strong>Time Slot:</strong> {{ unit.timeSlot?.timeInterval?.startTime | date:'short' }} - {{ unit.timeSlot?.timeInterval?.endTime | date:'shortTime' }}</p>
-            <p><strong>Date:</strong> {{ unit.timeSlot?.timeInterval?.date | date:'mediumDate' }}</p>
-            <p><strong>Availability:</strong> <span [ngClass]="{'text-green-500': unit.isAvailable, 'text-red-500': !unit.isAvailable}">{{ unit.isAvailable ? 'Available' : 'Unavailable' }}</span></p>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <p-button label="Book Now" icon="pi pi-check" [disabled]="!unit.isAvailable" (onClick)="bookUnit(unit.id)" />
-          </ng-template>
-        </p-card>
-      </div>
+  <!-- Steps Indicator -->
+  <p-steps [model]="steps" [(activeIndex)]="activeStep" [readonly]="true"></p-steps>
+    <p-toast></p-toast>
+
+    <div *ngIf="activeStep === 0">
+      <h2>Select Date</h2>
+      <p-calendar 
+      [(ngModel)]="selectedDate" 
+      [minDate]="minDate" 
+      [maxDate]="maxDate" 
+      [showIcon]="true"
+      (onSelect)="onDateSelect()"></p-calendar>
+      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+    </div>
+
+    <div *ngIf="activeStep === 1">
+      <h2>Select Washer</h2>
+      <p-dropdown 
+      [(ngModel)]="selectedWasher" 
+      [options]="availableWashers" 
+      optionLabel="name" 
+      optionValue="id" 
+      [showClear]="true"
+      (onChange)="onWasherSelect()"></p-dropdown>
+      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+    </div>
+
+    <div *ngIf="activeStep === 2">
+      <h2>Select Time Slot</h2>
+      <p-dropdown 
+      [(ngModel)]="selectedTimeSlot" 
+      [options]="availableTimeSlots" 
+      optionLabel="timeRange" 
+      optionValue="startTime" 
+      (onChange)="onTimeSlotSelect()"></p-dropdown>
+      <button pButton label="Book" (click)="bookUnit()" [disabled]="!selectedTimeSlot"></button>
+      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+    </div>
+
+  <!-- No Data Message -->
+  <div *ngIf="noDataMessage" class="p-message p-message-info mt-5" style="display: block;">
+    <div class="p-message-wrapper">
+      <span class="p-message-icon pi pi-info-circle"></span>
+      <span class="p-message-text">{{ noDataMessage }}</span>
     </div>
   </div>
-  <ng-template #noUnits>
-    <div class="p-message p-message-info mt-5" style="display: block;">
-      <div class="p-message-wrapper">
-        <span class="p-message-icon pi pi-info-circle"></span>
-        <span class="p-message-text">No available bookable units found for the next week.</span>
-      </div>
-    </div>
-  </ng-template>
 </div>
 <p-toast></p-toast>
+
+
+<!-- 
+<p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeStep"></p-steps>
+
+  Step 1: Select Date 
+  <div *ngIf="activeStep === 0" class="p-fluid w-full max-w-md mt-4">
+    <h3>Select a Date</h3>
+    <p-calendar
+      [(ngModel)]="selectedDate"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      [inline]="false"
+      [showIcon]="true"
+      dateFormat="yy-mm-dd"
+      (onSelect)="onDateSelect()"
+      placeholder="Choose a date"
+    ></p-calendar>
+  </div> -->
+
+   <!-- Step 2: Select Washer --> 
+  <!-- <div *ngIf="activeStep === 1" class="p-fluid w-full max-w-md mt-4">
+    <h3>Select a Washing Machine</h3>
+    <p-dropdown
+      [(ngModel)]="selectedWasher"
+      [options]="availableWashers"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Select a washer"
+      (onChange)="onWasherSelect()"
+      [showClear]="true"
+    ></p-dropdown>
+    <div *ngIf="selectedWasher" class="mt-3">
+      <p><strong>Selected Washer:</strong> {{ getWasherById(selectedWasher)?.name }}</p>
+      <p><strong>Capacity:</strong> {{ getWasherById(selectedWasher)?.capacity }} kg</p>
+      <p><strong>Status:</strong> {{ getWasherById(selectedWasher)?.status }}</p>
+    </div>
+    <div class="flex justify-content-end mt-3">
+      <p-button label="Back" icon="pi pi-arrow-left" styleClass="p-button-secondary mr-2" (onClick)="activeStep = 0"></p-button>
+      <p-button label="Next" icon="pi pi-arrow-right" [disabled]="!selectedWasher" (onClick)="activeStep = 2"></p-button>
+    </div>
+  </div>
+
+  Step 3: Select Time Slot and Confirm -->
+  <!-- <div *ngIf="activeStep === 2" class="p-fluid w-full max-w-md mt-4">
+    <h3>Select a Time Slot</h3>
+    <p-dropdown
+      [(ngModel)]="selectedTimeSlot"
+      [options]="availableTimeSlots"
+      optionLabel="timeRange"
+      optionValue="id"
+      placeholder="Select a time slot"
+      [showClear]="true"
+    ></p-dropdown>
+    <div *ngIf="selectedTimeSlot" class="mt-3">
+      <p><strong>Selected Time:</strong> {{ getTimeSlotById(selectedTimeSlot)?.timeRange }}</p>
+    </div>
+    <div class="flex justify-content-end mt-3">
+      <p-button label="Back" icon="pi pi-arrow-left" styleClass="p-button-secondary mr-2" (onClick)="activeStep = 1"></p-button>
+      <p-button
+        label="Book Now"
+        icon="pi pi-check"
+        [disabled]="!selectedTimeSlot"
+        (onClick)="bookUnit()"
+      ></p-button>
+    </div>
+  </div>  -->

@@ -15,29 +15,18 @@ export class BookableUnitService {
     private authService: AuthService // Inject AuthService
   ) { }
 
-  /**
-   * Fetches all available bookable units from the backend.
-   * Requires authentication (Basic Auth header).
-   */
   getAllAvailableBookableUnits(): Observable<any> {
-    const headers = this.authService.getAuthHeaders(); // Get the header value
+    const headers = this.authService.getAuthHeaders(); 
     
     return this.http.get<any>(`${this.API_BASE_URL}/bookable-units`, {headers});
   }
 
-  /**
-   * Makes a reservation for a given bookable unit and user.
-   * Requires authentication.
-   */
-  makeReservation(bookableUnitId: number, userId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': this.authService.getBasicAuthHeader() || ''
-    });
-    // The backend endpoint is POST /reservation?bookableUnitId=...&userId=...
+  
+  makeReservation(bookableUnitId: number): Observable<any> {
+    const headers = this.authService.getAuthHeaders(); 
     return this.http.post(
-      `${this.API_BASE_URL}/reservation?bookableUnitId=${bookableUnitId}&userId=${userId}`,
-      null, // Body is null as parameters are in query string
-      { headers: headers }
+      `${this.API_BASE_URL}/reservation?bookableUnitId=${bookableUnitId}`,null, // Body is null as parameters are in query string
+      { headers }
     );
   }
 }

@@ -65,13 +65,13 @@ export class AuthService {
   }
 
   getBasicAuthHeader(): string | null {
-    return isPlatformBrowser(this.platformId)
-      ? localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY)
-      : null;
+     return localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY)
+      
   }
 
   getAuthHeaders(contentTypeJson: boolean = true): HttpHeaders {
-    const basicAuth = this.getBasicAuthHeader();
+    const basicAuth = localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY);
+    console.log(basicAuth);
     if (!basicAuth) {
       throw new Error('No Basic Auth token available.');
     }

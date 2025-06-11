@@ -19,10 +19,10 @@ export class ReservationService {
    * Fetches all active reservations for a specific user.
    * Requires authentication.
    */
-  getAllReservationsByUser(userId: number): Observable<any> {
+  getAllReservationsByUser(): Observable<any> {
     const headers = this.authService.getAuthHeaders();
     // The backend endpoint is GET /reservation/{userId}
-    return this.http.get(`${this.API_BASE_URL}/reservation/${userId}`, { headers: headers });
+    return this.http.get(`${this.API_BASE_URL}/reservation`, { headers: headers });
   }
 
   /**
@@ -30,10 +30,20 @@ export class ReservationService {
    * Requires authentication.
    */
   cancelReservation(reservationId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': this.authService.getBasicAuthHeader() || ''
-    });
+    const headers = this.authService.getAuthHeaders();
     // The backend endpoint is DELETE /reservation/{reservationId}
     return this.http.delete(`${this.API_BASE_URL}/reservation/${reservationId}`, { headers: headers });
+  }
+
+  getAvailableTimeSlots(washerId: number, date: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    const url = `${this.API_BASE_URL}/reservation/available-slots?washerId=${washerId}&date=${date}`;
+    return this.http.get(url,{headers: headers});
+  }
+
+  makeReservation(washerId: number, date: string, startTime: string, endTime: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    const url = `${this.API_BASE_URL}/reservation?washerId=${washerId}&date=${date}&startTime=${startTime}&endTime=${endTime}`;
+    return this.http.post(url, {}, { headers });
   }
 }

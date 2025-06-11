@@ -19,8 +19,8 @@
           <td>{{ reservation.id }}</td>
           <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
           <td>{{ reservation.bookableUnit?.washer?.capacity || 'N/A' }} kg</td>
-          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date | date:'mediumDate' }}</td>
-          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime | date:'shortTime' }} - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime | date:'shortTime' }}</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date }}</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime }} - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime }}</td>
           <td>
             <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
           </td>

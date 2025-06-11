@@ -46,11 +46,7 @@ export class MyReservationsComponent implements OnInit {
   }
 
   loadMyReservations(): void {
-    if (this.currentUserId === null) {
-      this.messageService.add({severity:'warn', summary:'Warning', detail:'User ID not found. Please log in.'});
-      return;
-    }
-    this.reservationService.getAllReservationsByUser(this.currentUserId).subscribe({
+    this.reservationService.getAllReservationsByUser().subscribe({
       next: (response) => {
         if (response && response.body) {
           this.reservations = response.body;
