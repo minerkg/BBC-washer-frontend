@@ -12,6 +12,7 @@ export class AuthService {
   private readonly API_BASE_URL = 'http://localhost:8082/api/v1';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
   private readonly USER_ROLE_STORAGE_KEY = 'userRole';
+  private readonly USER_PROFILE_STORAGE_KEY = 'profile';
 
   private currentUserRoleSubject: BehaviorSubject<string | null>;
   public currentUserRole: Observable<string | null>;
@@ -102,10 +103,18 @@ export class AuthService {
 
     return this.http.get<User>(`${this.API_BASE_URL}/user/me`, { headers }).pipe(
       tap(user => {
+        if(!user.accountNonLocked){
+          throw new Error("Account is locked ! please contact support!")
+        }
+
         let extractedRole: string | null = null;
         if (user.authorities && user.authorities.length > 0) {
           extractedRole = user.authorities[0].authority.replace('ROLE_', '');
         }
+
+        localStorage.setItem(this.USER_PROFILE_STORAGE_KEY,JSON.stringify(user));
+        
+
 
         console.log('DEBUG AuthService: Fetched user role:', extractedRole);
 

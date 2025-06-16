@@ -8,6 +8,7 @@
   <div class="navbar-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; align-items: center;" *ngIf="isLogedIn; else login">
     <p-button label="View Available Washers" routerLink="washers"></p-button>
     <p-button label="My Reservations" routerLink="my-reservations"></p-button>
+    <p-button label="Profile" routerLink="my-profile"></p-button>
     <p-button *ngIf="isAdmin" label="Manage Washers (Admin)" routerLink="admin/washers" styleClass="p-button-warning"></p-button>
     <p-button label="Logout" (onClick)="logout()" icon="pi pi-power-off" styleClass="p-button-danger"></p-button>
   </div>

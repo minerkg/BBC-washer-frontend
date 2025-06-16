@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BookableUnitsComponent } from './components/bookable-units/bookable-units.component'; // <--- Ensure this import is correct
 import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
 import { WasherManagementComponent } from './components/admin/washer-management/washer-management.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -13,7 +14,8 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, children:[
     {path:'washers', component: BookableUnitsComponent},
     { path: 'my-reservations', component: MyReservationsComponent },
-    { path: 'admin/washers', component: WasherManagementComponent }
+    { path: 'admin/washers', component: WasherManagementComponent },
+    {path: 'my-profile', component: ProfileComponent}
   ]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // IMPORTANT: We'll add route guards here later to protect routes

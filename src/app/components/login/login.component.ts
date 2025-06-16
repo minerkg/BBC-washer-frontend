@@ -57,7 +57,7 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Login failed callback received:', error); // This should follow a failed request
-        this.messageService.add({severity:'error', summary:'Error', detail:'Login Failed! Invalid credentials.'});
+        this.messageService.add({severity:'error', summary:'Error', detail: error});
         this.password = '';
       }
     });

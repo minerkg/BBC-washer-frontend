@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from "../../navbar/navbar.component"; // Import AuthService
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ import { NavbarComponent } from "../../navbar/navbar.component"; // Import AuthS
 })
 export class DashboardComponent implements OnInit {
   isAdmin: boolean = false;
+  user!: User;
 
   constructor(
     private router: Router,
@@ -31,7 +33,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     
     this.isAdmin = this.authService.hasRole('ADMIN');
-    
+    var user2 = localStorage.getItem('profile');
+    if(user2){
+      this.user = JSON.parse(user2);
+    }
+ 
   }
 
   logout() {

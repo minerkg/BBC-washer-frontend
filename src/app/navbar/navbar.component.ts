@@ -1,5 +1,5 @@
 // src/app/navbar/navbar.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router'; // Import RouterModule for routerLink
 import { AuthService } from '../services/auth.service';

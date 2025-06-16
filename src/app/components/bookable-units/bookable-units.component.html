@@ -16,18 +16,6 @@
       <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
     </div>
 
-    <div *ngIf="activeStep === 1">
-      <h2>Select Washer</h2>
-      <p-dropdown 
-      [(ngModel)]="selectedWasher" 
-      [options]="availableWashers" 
-      optionLabel="name" 
-      optionValue="id" 
-      [showClear]="true"
-      (onChange)="onWasherSelect()"></p-dropdown>
-      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
-    </div>
-
     <div *ngIf="activeStep === 2">
       <h2>Select Time Slot</h2>
       <p-dropdown 

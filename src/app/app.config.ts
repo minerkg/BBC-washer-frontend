@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http'; // Must be here
 import { provideAnimations } from '@angular/platform-browser/animations'; // Must be here
-import { BasicAuthInterceptor } from './services/basic-auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
