@@ -1,37 +1,44 @@
-import { Component } from '@angular/core';
+// src/app/navbar/navbar.component.ts
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { FormsModule } from '@angular/forms';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { Router, RouterModule } from '@angular/router'; // Import RouterModule for routerLink
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ButtonModule,DialogModule, InputTextModule,PasswordModule,FormsModule,FloatLabelModule],
+  imports: [
+    ButtonModule,
+    RouterModule, // Added RouterModule
+    CommonModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
+  isAdmin: boolean = false;
+  isLogedIn: boolean = false;
 
-  visible: boolean = false;
-  username: string = '';
-  password: string = '';
+    constructor(
+      private router: Router,
+      private authService: AuthService // Inject AuthService
+    ) {}
 
-  showDialog(){
-    this.visible = true;
-    console.log("clicked")
-  }
-  closeDialog(){
-    this.visible = false;
+
+  ngOnInit(): void {
+    this.isAdmin = this.authService.hasRole('ADMIN');
+    this.isLogedIn = this.authService.isAuthenticated();
   }
 
-  logIn(){
-    
-    console.log({username: this.username, password: this.password})
-    this.visible = false;
+  
+  logout() {
+    this.authService.logout();
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
+  
+
 
 
 }

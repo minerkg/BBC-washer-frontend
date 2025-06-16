@@ -1,0 +1,14 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f4f7fa;
+  }
+  
+  .p-steps {
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+  
+  .p-button {
+    border-radius: 6px;
+  }

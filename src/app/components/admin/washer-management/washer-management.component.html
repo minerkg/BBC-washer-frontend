@@ -1,0 +1,88 @@
+<div class="p-grid p-justify-center p-align-center p-mt-5">
+  <div class="p-col-12 p-md-8 p-lg-6">
+    <p-card header="Manage Washers" styleClass="p-shadow-24">
+      <div class="p-fluid p-mb-4">
+        <h3>Add New Washer</h3>
+        <div class="p-field">
+          <label for="washerName">Name</label>
+          <input id="washerName" type="text" pInputText [(ngModel)]="newWasher.name" required />
+        </div>
+        <div class="p-field p-mt-3">
+          <label for="washerCapacity">Capacity (kg)</label>
+          <input id="washerCapacity" type="number" pInputText [(ngModel)]="newWasher.capacity" required />
+        </div>
+        <div class="p-field p-mt-3">
+          <label for="washerStatus">Status</label>
+          <p-dropdown id="washerStatus" [options]="washerStatuses" [(ngModel)]="newWasher.status" placeholder="Select a Status" required></p-dropdown>
+        </div>
+        <p-button label="Add Washer" icon="pi pi-plus" (onClick)="addWasher()" class="p-mt-4"></p-button>
+      </div>
+
+      <p-divider></p-divider>
+
+      <h3>Existing Washers</h3>
+      <div *ngIf="washers && washers.length > 0; else noWashers">
+        <p-table [value]="washers" [paginator]="true" [rows]="10" [tableStyle]="{'min-width': '50rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Capacity</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-washer>
+            <tr>
+              <td>{{ washer.id }}</td>
+              <td>{{ washer.name }}</td>
+              <td>{{ washer.capacity }} kg</td>
+              <td><p-tag [value]="washer.status" [severity]="getSeverity(washer.status)"></p-tag></td>
+              <td>
+                <p-button icon="pi pi-pencil" styleClass="p-button-sm p-button-info p-mr-2" (onClick)="editWasher(washer)"></p-button>
+                <p-button icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (onClick)="confirmDelete(washer.id)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptyMessage">
+            <tr>
+              <td colspan="5">No washers found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <ng-template #noWashers>
+        <div class="p-message p-message-info mt-3" style="display: block;">
+          <div class="p-message-wrapper">
+            <span class="p-message-icon pi pi-info-circle"></span>
+            <span class="p-message-text">No washers currently registered.</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '60vw'}" [baseZIndex]="1000"></p-confirmDialog>
+
+<p-dialog header="Edit Washer" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
+  <div class="p-fluid mb-5">
+    <div class="p-field">
+      <label for="editWasherName">Name</label>
+      <input id="editWasherName" type="text" pInputText [(ngModel)]="selectedWasher.name" />
+    </div>
+    <div class="p-field p-mt-3">
+      <label for="editWasherCapacity">Capacity (kg)</label>
+      <input id="editWasherCapacity" type="number" pInputText [(ngModel)]="selectedWasher.capacity" />
+    </div>
+    <div class="p-field p-mt-3 mb-4">
+      <label for="editWasherStatus">Status</label>
+      <p-dropdown class="mb-3" id="editWasherStatus" [options]="washerStatusesForEdit" [(ngModel)]="selectedWasher.status" placeholder="Select a Status"></p-dropdown>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" icon="pi pi-times" (onClick)="displayEditDialog=false" styleClass="p-button-text"></p-button>
+    <p-button label="Save" icon="pi pi-check" (onClick)="updateWasher()"></p-button>
+  </ng-template>
+</p-dialog>

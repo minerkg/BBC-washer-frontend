@@ -1,0 +1,53 @@
+<div class="flex flex-column align-items-center justify-content-center p-5">
+  <h2>My Reservations</h2>
+
+  <div *ngIf="reservations && reservations.length > 0; else noReservations">
+    <p-table [value]="reservations" [paginator]="true" [rows]="10" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Reservation ID</th>
+          <th>Washer Name</th>
+          <th>Capacity</th>
+          <th>Date</th>
+          <th>Time Slot</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-reservation>
+        <tr>
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
+          <td>{{ reservation.bookableUnit?.washer?.capacity || 'N/A' }} kg</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date }}</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime }} - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime }}</td>
+          <td>
+            <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
+          </td>
+          <td>
+            <p-button *ngIf="reservation.status === 'CONFIRMED'"
+                      icon="pi pi-times"
+                      label="Cancel"
+                      styleClass="p-button-danger p-button-sm"
+                      (onClick)="confirmCancel(reservation.id)" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptyMessage">
+        <tr>
+          <td colspan="7">No reservations found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <ng-template #noReservations>
+    <div class="p-message p-message-info mt-5" style="display: block;">
+      <div class="p-message-wrapper">
+        <span class="p-message-icon pi pi-info-circle"></span>
+        <span class="p-message-text">You currently have no active or completed reservations.</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="1000"></p-confirmDialog>
