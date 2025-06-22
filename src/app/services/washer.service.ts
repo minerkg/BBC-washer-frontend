@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { BookableUnitDTO } from '../models/dtos/bookableUnit.model';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WasherService {
-  private API_BASE_URL = 'http://localhost:8082/api/v1';
+  private API_BASE_URL = environment.API_BASE_URL;
 
   constructor(
     private http: HttpClient,
