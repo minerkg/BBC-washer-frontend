@@ -65,8 +65,6 @@
               "extractLicenses": false
             }
           },
-
-
           "defaultConfiguration": "production"
         },
         "serve": {
