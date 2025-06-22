@@ -1,6 +1,6 @@
 // src/app/components/dashboard/dashboard.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule, Router } from '@angular/router';
@@ -26,16 +26,20 @@ export class DashboardComponent implements OnInit {
   user!: User;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private authService: AuthService // Inject AuthService
   ) {}
 
   ngOnInit(): void {
     
-    this.isAdmin = this.authService.hasRole('ADMIN');
-    var user2 = localStorage.getItem('profile');
-    if(user2){
-      this.user = JSON.parse(user2);
+    if (isPlatformBrowser(this.platformId)) {
+      this.isAdmin = this.authService.hasRole('ADMIN');
+  
+      const user2 = localStorage.getItem('profile');
+      if (user2) {
+        this.user = JSON.parse(user2);
+      }
     }
  
   }
