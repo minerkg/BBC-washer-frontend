@@ -1,5 +1,103 @@
-<p>profile works!</p>
+<div class="p-grid p-justify-center p-align-center p-mt-5">
+  <div class="p-col-12 p-md-8 p-lg-6">
+    <p-card header="User Profile" styleClass="p-shadow-24">
+      <div *ngIf="user; else loadingProfile">
+        <div class="p-fluid">
+          <div *ngIf="!editMode; else editModeTemplate">
+            <div class="p-field mb-3">
+              <label>Username:</label>
+              <p>{{ user.username }}</p>
+            </div>
+            <div class="p-field mb-3">
+              <label>First Name:</label>
+              <p>{{ user.first_name }}</p>
+            </div>
+            <div class="p-field mb-3">
+              <label>Last Name:</label>
+              <p>{{ user.last_name }}</p>
+            </div>
+            <div class="p-field mb-3">
+              <label>Email:</label>
+              <p>{{ user.email }}</p>
+            </div>
+            <div class="p-field mb-3">
+              <label>Phone Number:</label>
+              <p>{{ user.phone }}</p>
+            </div>
+            <div class="p-field mb-3">
+              <label>Nr. Matricol:</label>
+              <p>{{ user.nr_matricol }}</p>
+            </div>
+            <div class="p-field mb-3" *ngIf="user.authorities && user.authorities.length > 0">
+              <label>Roles:</label>
+              <div class="p-d-flex p-flex-wrap">
+                <p-tag *ngFor="let authority of user.authorities"
+                       [value]="authority.authority.replace('ROLE_', '')"
+                       severity="info"
+                       styleClass="p-mr-2 p-mb-2"></p-tag>
+              </div>
+            </div>
+            <div class="p-d-flex p-jc-end p-mt-4">
+              <p-button label="Edit Profile" icon="pi pi-pencil" (onClick)="enableEditMode()"></p-button>
+            </div>
+          </div>
 
-<div *ngIf="user">
-    <h1>{{user.first_name + user.last_name}}</h1>
+          <ng-template #editModeTemplate>
+            <div class="p-field mb-3">
+              <label for="editFirstName">First Name:</label>
+              <input id="editFirstName" type="text" pInputText [(ngModel)]="editedUser!.first_name" required />
+            </div>
+            <div class="p-field mb-3">
+              <label for="editLastName">Last Name:</label>
+              <input id="editLastName" type="text" pInputText [(ngModel)]="editedUser!.last_name" required />
+            </div>
+            <div class="p-field mb-3">
+              <label for="editEmail">Email:</label>
+              <input id="editEmail" type="email" pInputText [(ngModel)]="editedUser!.email" required />
+            </div>
+            <div class="p-field mb-3">
+              <label for="editPhone">Phone Number:</label>
+              <input id="editPhone" type="text" pInputText [(ngModel)]="editedUser!.phone" required />
+            </div>
+            <div class="p-d-flex p-jc-end p-mt-4">
+              <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary p-mr-2" (onClick)="cancelEdit()"></p-button>
+              <p-button label="Save Changes" icon="pi pi-check" (onClick)="saveProfile()"></p-button>
+            </div>
+          </ng-template>
+        </div>
+
+        <p-divider></p-divider>
+
+        <h3>Change Password</h3>
+        <div class="p-fluid">
+          <div class="p-field mb-3">
+            <label for="currentPassword">Current Password:</label>
+            <input id="currentPassword" type="password" pInputText [(ngModel)]="currentPassword" required />
+          </div>
+          <div class="p-field mb-3">
+            <label for="newPassword">New Password:</label>
+            <input id="newPassword" type="password" pInputText [(ngModel)]="newPassword" required />
+          </div>
+          <div class="p-field mb-3">
+            <label for="confirmNewPassword">Confirm New Password:</label>
+            <input id="confirmNewPassword" type="password" pInputText [(ngModel)]="confirmNewPassword" required />
+          </div>
+          <div class="p-d-flex p-jc-end p-mt-4">
+            <p-button label="Change Password" icon="pi pi-key" (onClick)="changePassword()"></p-button>
+          </div>
+        </div>
+
+      </div>
+      <ng-template #loadingProfile>
+        <div class="p-message p-message-info" style="display: block;">
+          <div class="p-message-wrapper">
+            <span class="p-message-icon pi pi-info-circle"></span>
+            <span class="p-message-text">Loading profile...</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
 </div>
+
+<p-toast></p-toast>
