@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class ProfileService {
   private API_BASE_URL = 'http://localhost:8082/api/v1';
-  private readonly USER_PROFILE_STORAGE_KEY = 'profile';
+  public readonly USER_PROFILE_STORAGE_KEY = 'profile';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
 
   constructor( private http: HttpClient,private authService: AuthService, @Inject(PLATFORM_ID) private platformId: Object,) { }
@@ -28,7 +28,7 @@ export class ProfileService {
     const headers = this.authService.getAuthHeaders(false);
 
     return this.http.get<User>(`${this.API_BASE_URL}/user/me`,{headers});
-    
+
 
   }
 
