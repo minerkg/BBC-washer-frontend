@@ -19,10 +19,10 @@ export class ReservationService {
    * Fetches all active reservations for a specific user.
    * Requires authentication.
    */
-  getAllReservationsByUser(): Observable<any> {
+  getAllReservationsByUser(userId: number): Observable<any> {
     const headers = this.authService.getAuthHeaders();
     // The backend endpoint is GET /reservation/{userId}
-    return this.http.get(`${this.API_BASE_URL}/reservation`, { headers: headers });
+    return this.http.get(`${this.API_BASE_URL}/reservation/${userId}`, { headers: headers });
   }
 
   /**
