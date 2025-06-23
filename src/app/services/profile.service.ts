@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  private API_BASE_URL = 'http://localhost:8082/api/v1';
-  public readonly USER_PROFILE_STORAGE_KEY = 'profile';
+
+  private API_BASE_URL = environment.API_BASE_URL;
+  private readonly USER_PROFILE_STORAGE_KEY = 'profile';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
 
   constructor( private http: HttpClient,private authService: AuthService) { }
