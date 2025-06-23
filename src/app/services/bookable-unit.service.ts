@@ -2,13 +2,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service'; // Ensure this exact path!
+import { AuthService } from './auth.service';
+import {environment} from "../../environments/environment"; // Ensure this exact path!
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookableUnitService {
-  private API_BASE_URL = 'http://localhost:8082/api/v1'; // Ensure this matches your backend port and context path
+  private API_BASE_URL = environment.API_BASE_URL;
 
   constructor(
     private http: HttpClient,
@@ -16,14 +17,14 @@ export class BookableUnitService {
   ) { }
 
   getAllAvailableBookableUnits(): Observable<any> {
-    const headers = this.authService.getAuthHeaders(); 
-    
+    const headers = this.authService.getAuthHeaders();
+
     return this.http.get<any>(`${this.API_BASE_URL}/bookable-units`, {headers});
   }
 
-  
+
   makeReservation(bookableUnitId: number): Observable<any> {
-    const headers = this.authService.getAuthHeaders(); 
+    const headers = this.authService.getAuthHeaders();
     return this.http.post(
       `${this.API_BASE_URL}/reservation?bookableUnitId=${bookableUnitId}`,null, // Body is null as parameters are in query string
       { headers }

@@ -2,13 +2,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service'; // To get the auth header
+import { AuthService } from './auth.service';
+import {environment} from "../../environments/environment"; // To get the auth header
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
-  private API_BASE_URL = 'http://localhost:8082/api/v1'; // Ensure this matches your backend
+  private API_BASE_URL = environment.API_BASE_URL;
 
   constructor(
     private http: HttpClient,

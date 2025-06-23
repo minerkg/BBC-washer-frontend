@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/user.model';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_BASE_URL = 'http://localhost:8082/api/v1';
+  private readonly API_BASE_URL = environment.API_BASE_URL;
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
   private readonly USER_ROLE_STORAGE_KEY = 'userRole';
   private readonly USER_PROFILE_STORAGE_KEY = 'profile';
@@ -67,7 +68,7 @@ export class AuthService {
 
   getBasicAuthHeader(): string | null {
      return localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY)
-      
+
   }
 
   getAuthHeaders(contentTypeJson: boolean = true): HttpHeaders {
@@ -113,7 +114,7 @@ export class AuthService {
         }
 
         localStorage.setItem(this.USER_PROFILE_STORAGE_KEY,JSON.stringify(user));
-        
+
 
 
         console.log('DEBUG AuthService: Fetched user role:', extractedRole);
