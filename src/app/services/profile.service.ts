@@ -9,6 +9,7 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ProfileService {
+
   private API_BASE_URL = environment.API_BASE_URL;
   private readonly USER_PROFILE_STORAGE_KEY = 'profile';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
