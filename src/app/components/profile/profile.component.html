@@ -1,103 +1,129 @@
-<div class="p-grid p-justify-center p-align-center p-mt-5">
-  <div class="p-col-12 p-md-8 p-lg-6">
-    <p-card header="User Profile" styleClass="p-shadow-24">
-      <div *ngIf="user; else loadingProfile">
-        <div class="p-fluid">
-          <div *ngIf="!editMode; else editModeTemplate">
-            <div class="p-field mb-3">
-              <label>Username:</label>
-              <p>{{ user.username }}</p>
-            </div>
-            <div class="p-field mb-3">
-              <label>First Name:</label>
-              <p>{{ user.first_name }}</p>
-            </div>
-            <div class="p-field mb-3">
-              <label>Last Name:</label>
-              <p>{{ user.last_name }}</p>
-            </div>
-            <div class="p-field mb-3">
-              <label>Email:</label>
-              <p>{{ user.email }}</p>
-            </div>
-            <div class="p-field mb-3">
-              <label>Phone Number:</label>
-              <p>{{ user.phone }}</p>
-            </div>
-            <div class="p-field mb-3">
-              <label>Nr. Matricol:</label>
-              <p>{{ user.nr_matricol }}</p>
-            </div>
-            <div class="p-field mb-3" *ngIf="user.authorities && user.authorities.length > 0">
-              <label>Roles:</label>
-              <div class="p-d-flex p-flex-wrap">
-                <p-tag *ngFor="let authority of user.authorities"
-                       [value]="authority.authority.replace('ROLE_', '')"
-                       severity="info"
-                       styleClass="p-mr-2 p-mb-2"></p-tag>
-              </div>
-            </div>
-            <div class="p-d-flex p-jc-end p-mt-4">
-              <p-button label="Edit Profile" icon="pi pi-pencil" (onClick)="enableEditMode()"></p-button>
-            </div>
-          </div>
-
-          <ng-template #editModeTemplate>
-            <div class="p-field mb-3">
-              <label for="editFirstName">First Name:</label>
-              <input id="editFirstName" type="text" pInputText [(ngModel)]="editedUser!.first_name" required />
-            </div>
-            <div class="p-field mb-3">
-              <label for="editLastName">Last Name:</label>
-              <input id="editLastName" type="text" pInputText [(ngModel)]="editedUser!.last_name" required />
-            </div>
-            <div class="p-field mb-3">
-              <label for="editEmail">Email:</label>
-              <input id="editEmail" type="email" pInputText [(ngModel)]="editedUser!.email" required />
-            </div>
-            <div class="p-field mb-3">
-              <label for="editPhone">Phone Number:</label>
-              <input id="editPhone" type="text" pInputText [(ngModel)]="editedUser!.phone" required />
-            </div>
-            <div class="p-d-flex p-jc-end p-mt-4">
-              <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary p-mr-2" (onClick)="cancelEdit()"></p-button>
-              <p-button label="Save Changes" icon="pi pi-check" (onClick)="saveProfile()"></p-button>
-            </div>
-          </ng-template>
-        </div>
-
-        <p-divider></p-divider>
-
-        <h3>Change Password</h3>
-        <div class="p-fluid">
-          <div class="p-field mb-3">
-            <label for="currentPassword">Current Password:</label>
-            <input id="currentPassword" type="password" pInputText [(ngModel)]="currentPassword" required />
-          </div>
-          <div class="p-field mb-3">
-            <label for="newPassword">New Password:</label>
-            <input id="newPassword" type="password" pInputText [(ngModel)]="newPassword" required />
-          </div>
-          <div class="p-field mb-3">
-            <label for="confirmNewPassword">Confirm New Password:</label>
-            <input id="confirmNewPassword" type="password" pInputText [(ngModel)]="confirmNewPassword" required />
-          </div>
-          <div class="p-d-flex p-jc-end p-mt-4">
-            <p-button label="Change Password" icon="pi pi-key" (onClick)="changePassword()"></p-button>
-          </div>
-        </div>
-
-      </div>
-      <ng-template #loadingProfile>
-        <div class="p-message p-message-info" style="display: block;">
-          <div class="p-message-wrapper">
-            <span class="p-message-icon pi pi-info-circle"></span>
-            <span class="p-message-text">Loading profile...</span>
+<div class="flex justify-content-center my-5 px-3">
+  <div class="col-12 md:col-10 lg:col-8 xl:col-6">
+    <p-toast></p-toast>
+    <p-card styleClass="shadow-24">
+      <ng-template pTemplate="title" *ngIf="user">
+        <div class="flex align-items-center gap-3">
+          <p-avatar
+            [label]="(user?.first_name?.substring(0,1) || '') + (user?.last_name?.substring(0,1) || '')"
+            styleClass="p-mr-2"
+            size="xlarge"
+            shape="circle"></p-avatar>
+          <div class="flex flex-column">
+            <span class="font-bold">{{ user?.first_name }} {{ user?.last_name }}</span>
+            <span class="text-sm text-gray-500">{{ user?.username }}</span>
           </div>
         </div>
       </ng-template>
+
+      <div *ngIf="user; else loadingProfile">
+        <div *ngIf="!editMode; else editModeTemplate">
+          <h4 class="mb-4">Detalii Profil</h4>
+          <div class="grid formgrid p-fluid">
+            <div class="field col-12 md:col-6">
+              <label>Email</label>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+                <input pInputText [value]="user.email" readonly />
+              </div>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label>Telefon</label>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-phone"></i></span>
+                <input pInputText [value]="user.phone" readonly />
+              </div>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label>Nr. Matricol</label>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-id-card"></i></span>
+                <input pInputText [value]="user.nr_matricol" readonly />
+              </div>
+            </div>
+            <div class="field col-12 md:col-6" *ngIf="user?.authorities?.length">
+              <label>Roluri</label>
+              <div class="flex flex-wrap align-items-center gap-2 pt-2">
+                <p-tag *ngFor="let authority of user.authorities"
+                       [value]="authority.authority.replace('ROLE_', '')"
+                       severity="info"></p-tag>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-content-end mt-5">
+            <p-button label="Editează Profilul" icon="pi pi-pencil" (onClick)="enableEditMode()"></p-button>
+          </div>
+        </div>
+
+        <ng-template #editModeTemplate>
+          <h4 class="mb-4">Editare Profil</h4>
+          <div class="grid formgrid p-fluid">
+            <div class="field col-12 md:col-6">
+              <label for="editFirstName">Prenume</label>
+              <input id="editFirstName" type="text" pInputText [(ngModel)]="editedUser!.first_name" required #firstName="ngModel" />
+              <small *ngIf="firstName.invalid && firstName.dirty" class="p-error">Prenumele este obligatoriu.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="editLastName">Nume</label>
+              <input id="editLastName" type="text" pInputText [(ngModel)]="editedUser!.last_name" required #lastName="ngModel" />
+              <small *ngIf="lastName.invalid && lastName.dirty" class="p-error">Numele este obligatoriu.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="editEmail">Email</label>
+              <input id="editEmail" type="email" pInputText [(ngModel)]="editedUser!.email" required email #email="ngModel" />
+              <small *ngIf="email.invalid && email.dirty" class="p-error">Introduceți un email valid.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+              <label for="editPhone">Telefon</label>
+              <input id="editPhone" type="text" pInputText [(ngModel)]="editedUser!.phone" required #phone="ngModel" />
+              <small *ngIf="phone.invalid && phone.dirty" class="p-error">Telefonul este obligatoriu.</small>
+            </div>
+          </div>
+          <div class="flex justify-content-end gap-2 mt-5">
+            <p-button label="Anulează" icon="pi pi-times" styleClass="p-button-secondary" (onClick)="cancelEdit()"></p-button>
+            <p-button label="Salvează Modificările" icon="pi pi-check" (onClick)="saveProfile()"></p-button>
+          </div>
+        </ng-template>
+
+        <p-divider layout="horizontal" class="my-5"></p-divider>
+
+        <h4 class="mb-4">Schimbă Parola</h4>
+        <div class="grid formgrid p-fluid">
+          <div class="field col-12">
+            <label for="currentPassword">Parola Curentă</label>
+            <input id="currentPassword" type="password" pInputText [(ngModel)]="currentPassword" required />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="newPassword">Parola Nouă</label>
+            <input id="newPassword" type="password" pInputText [(ngModel)]="newPassword" required />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="confirmNewPassword">Confirmă Parola Nouă</label>
+            <input id="confirmNewPassword" type="password" pInputText [(ngModel)]="confirmNewPassword" required />
+          </div>
+        </div>
+        <div class="flex justify-content-end mt-4">
+          <p-button label="Schimbă Parola" icon="pi pi-key" (onClick)="changePassword()"></p-button>
+        </div>
+
+      </div>
+
+      <ng-template #loadingProfile>
+        <div class="flex align-items-center gap-3 mb-4">
+          <p-skeleton shape="circle" size="4rem"></p-skeleton>
+          <div class="flex-grow-1">
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="5rem"></p-skeleton>
+          </div>
+        </div>
+        <div class="grid formgrid p-fluid">
+          <div class="field col-12 md:col-6"><p-skeleton height="3.5rem"></p-skeleton></div>
+          <div class="field col-12 md:col-6"><p-skeleton height="3.5rem"></p-skeleton></div>
+          <div class="field col-12 md:col-6"><p-skeleton height="3.5rem"></p-skeleton></div>
+          <div class="field col-12 md:col-6"><p-skeleton height="3.5rem"></p-skeleton></div>
+        </div>
+      </ng-template>
+
     </p-card>
   </div>
 </div>
-
-<p-toast></p-toast>
