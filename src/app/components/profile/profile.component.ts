@@ -106,7 +106,7 @@ export class ProfileComponent implements OnInit {
           this.user.email = this.editedUser!.email;
           this.user.phone = this.editedUser!.phone;
           // Update localStorage if necessary
-          localStorage.setItem(this.profileService.USER_PROFILE_STORAGE_KEY, JSON.stringify(this.user));
+          localStorage.setItem(this.profileService.getProfileStorageKey(), JSON.stringify(this.user));
         }
         this.editMode = false;
         this.editedUser = null;
