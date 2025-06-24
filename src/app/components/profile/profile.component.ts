@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../../services/user.service';
-
 // Importuri PrimeNG
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,7 +13,6 @@ import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-
 // Importuri pentru estetică (fără PasswordModule)
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -44,6 +42,7 @@ export class ProfileComponent implements OnInit {
 
   user: User | null = null;
   editedUser: User | null = null;
+
   editMode: boolean = false;
 
   currentPassword!: string;
@@ -101,18 +100,21 @@ export class ProfileComponent implements OnInit {
 
     if (!this.editedUser.first_name || !this.editedUser.last_name || !this.editedUser.email || !this.editedUser.phone) {
       this.messageService.add({severity:'warn', summary:'Atenție', detail:'Vă rugăm să completați toate câmpurile obligatorii.'});
+
       return;
     }
 
     this.userService.updateUserProfile(this.editedUser).subscribe({
       next: (response) => {
         this.messageService.add({severity:'success', summary:'Succes', detail:'Profilul a fost actualizat cu succes!'});
+
         if (this.user) {
           this.user.first_name = this.editedUser!.first_name;
           this.user.last_name = this.editedUser!.last_name;
           this.user.email = this.editedUser!.email;
           this.user.phone = this.editedUser!.phone;
-          localStorage.setItem(this.profileService.USER_PROFILE_STORAGE_KEY, JSON.stringify(this.user));
+          localStorage.setItem(this.profileService.getProfileStorageKey(), JSON.stringify(this.user));
+
         }
         this.editMode = false;
         this.editedUser = null;
@@ -121,6 +123,7 @@ export class ProfileComponent implements OnInit {
         console.error('Eroare la actualizarea profilului:', error);
         const errorMessage = error.error?.message || 'Nu s-a putut actualiza profilul.';
         this.messageService.add({severity:'error', summary:'Eroare', detail: errorMessage});
+
       }
     });
   }
@@ -147,6 +150,7 @@ export class ProfileComponent implements OnInit {
     this.userService.changeUserPassword(passwordChangeRequest).subscribe({
       next: (response) => {
         this.messageService.add({severity:'success', summary:'Succes', detail:'Parola a fost schimbată cu succes!'});
+
         this.currentPassword = '';
         this.newPassword = '';
         this.confirmNewPassword = '';
