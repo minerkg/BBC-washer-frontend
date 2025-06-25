@@ -35,32 +35,30 @@ import { AuthService } from '../../../services/auth.service'; // <--- Import Aut
   ],
   templateUrl: './washer-management.component.html',
   styleUrl: './washer-management.component.css',
-  providers: [MessageService, ConfirmationService] // Provide MessageService and ConfirmationService
+  providers: [MessageService, ConfirmationService] 
 })
 export class WasherManagementComponent implements OnInit {
   washers: any[] = [];
   newWasher: any = { name: '', capacity: null, status: null };
-  washerStatuses: any[] = []; // For add form
-  washerStatusesForEdit: any[] = []; // For edit form (excluding IN_USE for direct setting)
+  washerStatuses: any[] = []; 
+  washerStatusesForEdit: any[] = []; 
 
   displayEditDialog: boolean = false;
-  selectedWasher: any = {}; // Initialize as an empty object, not null
+  selectedWasher: any = {};
+  isAdmin: boolean = false;
 
   constructor(
     private washerService: WasherService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private authService: AuthService // <--- AuthService is injected here
+    private authService: AuthService 
   ) {
-    // Initialize washer statuses for dropdowns
-    // WasherStatus: AVAILABLE, IN_USE, MAINTENANCE
+
     this.washerStatuses = [
       { label: 'Available', value: 'AVAILABLE' },
-      { label: 'In Use', value: 'IN_USE' }, // Can be selected manually, though often set by system
       { label: 'Maintenance', value: 'MAINTENANCE' }
     ];
-    // For editing, usually you don't manually set IN_USE, as it's real-time.
-    // If you allow it, it will overwrite the real-time status temporarily.
+   
     this.washerStatusesForEdit = [
       { label: 'Available', value: 'AVAILABLE' },
       { label: 'Maintenance', value: 'MAINTENANCE' }
@@ -68,34 +66,22 @@ export class WasherManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Only load washers if user is authenticated and has ADMIN role
-    // We subscribe here to react to role changes and to ensure auth state is ready
+
     this.authService.currentUserRole.subscribe((role: string | null) => {
       if (role === 'ADMIN' || role === 'EMPLOYEE') {
-        console.log('DEBUG WasherManagementComponent: User is ADMIN, loading washers.');
         this.loadWashers();
       } else {
-        console.log('DEBUG WasherManagementComponent: User is NOT ADMIN, not loading washers.');
-        this.washers = []; // Clear washers if not admin
+       
         this.messageService.add({severity:'error', summary:'Access Denied', detail:'You do not have permission to manage washers.'});
-        // Optionally, you might want to redirect them away from this page if not admin
-        // this.router.navigate(['/dashboard']); // Requires Router injection
       }
     });
 
-    // Also, ensure the initial check on component load if role is already in localStorage
-    // This is redundant if the subscribe above immediately fires, but good for robustness
-    // if a component is initialized while the subject hasn't emitted yet.
-    if (this.authService.hasRole('ADMIN')) {
-      console.log('DEBUG WasherManagementComponent: OnInit initial check, user is ADMIN.');
-      // loadWashers() will be called by the subscription anyway, so no need to call it twice here.
-    } else {
-      console.log('DEBUG WasherManagementComponent: OnInit initial check, user is NOT ADMIN.');
-    }
+    this.isAdmin=this.authService.hasRole('ADMIN');
+    
   }
 
   loadWashers(): void {
-    this.washerService.getAllWashers().subscribe({ // Using getAllWashers from WasherService
+    this.washerService.getAllWashers().subscribe({
       next: (response) => {
         if (response && response.body) {
           this.washers = response.body;
@@ -109,7 +95,6 @@ export class WasherManagementComponent implements OnInit {
       error: (error) => {
         console.error('Error loading washers:', error);
         this.messageService.add({severity:'error', summary:'Error', detail:'Failed to load washers.'});
-        // Handle 403 Forbidden specifically (e.g., redirect to login or show access denied)
         if (error.status === 403) {
           this.messageService.add({severity:'error', summary:'Access Denied', detail:'You do not have permission to view washers.'});
         }
@@ -143,7 +128,7 @@ export class WasherManagementComponent implements OnInit {
   }
 
   editWasher(washer: any): void {
-    this.selectedWasher = { ...washer }; // Create a copy to avoid direct mutation
+    this.selectedWasher = { ...washer };
     this.displayEditDialog = true;
   }
 
@@ -207,7 +192,6 @@ export class WasherManagementComponent implements OnInit {
   getSeverity(status: string): 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'contrast' {
     switch (status) {
       case 'AVAILABLE': return 'success';
-      case 'IN_USE': return 'info';
       case 'MAINTENANCE': return 'warning';
       default: return 'secondary';
     }
