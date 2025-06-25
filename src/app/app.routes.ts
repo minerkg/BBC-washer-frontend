@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, children:[
     {path:'washers', component: BookableUnitsComponent},
+    {path:'my-profile', component: ProfileComponent},
     { path: 'my-reservations', component: MyReservationsComponent },
     { path: 'admin/washers', component: WasherManagementComponent },
     {path: 'admin/user-manager', component: UserManagerComponent},
