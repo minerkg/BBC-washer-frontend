@@ -9,7 +9,6 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ProfileService {
-
   private API_BASE_URL = environment.API_BASE_URL;
   private readonly USER_PROFILE_STORAGE_KEY = 'profile';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
@@ -24,9 +23,9 @@ export class ProfileService {
 
   getProfileFromBackend(): Observable<User> {
     const headers = this.authService.getAuthHeaders(false);
-
-    return this.http.get<User>(`${this.API_BASE_URL}/user/me`, {headers});
+    return this.http.get<User>(`${this.API_BASE_URL}/user/me`,{headers});
   }
+
 
   getProfileStorageKey(): string {
     return this.USER_PROFILE_STORAGE_KEY;

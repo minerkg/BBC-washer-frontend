@@ -71,7 +71,7 @@ export class WasherManagementComponent implements OnInit {
     // Only load washers if user is authenticated and has ADMIN role
     // We subscribe here to react to role changes and to ensure auth state is ready
     this.authService.currentUserRole.subscribe((role: string | null) => {
-      if (role === 'ADMIN') {
+      if (role === 'ADMIN' || role === 'EMPLOYEE') {
         console.log('DEBUG WasherManagementComponent: User is ADMIN, loading washers.');
         this.loadWashers();
       } else {
@@ -176,6 +176,7 @@ export class WasherManagementComponent implements OnInit {
       header: 'Delete Washer',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        console.log(washerId);
         this.deleteWasher(washerId);
       },
       reject: () => {
