@@ -7,7 +7,7 @@
   <!-- Right side: Actions -->
   <div class="navbar-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; align-items: center;" *ngIf="isLogedIn; else login">
     <p-button label="NEW BOOKING" routerLink="washers"></p-button>
-    <p-button *ngIf="!isAdmin || !isEmployee" label="My Reservations" routerLink="my-reservations"></p-button>
+    <p-button *ngIf="!(isAdmin || isEmployee)" label="My Reservations" routerLink="my-reservations"></p-button>
     <p-button label="Profile" routerLink="my-profile"></p-button>
     <p-button *ngIf="isAdmin || isEmployee" label="RESOURCES (Admin)" routerLink="admin/washers" styleClass="p-button-warning"></p-button>
     <p-button *ngIf="isAdmin" label="User Manager" routerLink="admin/user-manager" styleClass="p-button-warning"></p-button>
