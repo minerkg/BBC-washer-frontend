@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 export class NavbarComponent implements OnInit{
   isAdmin: boolean = false;
   isLogedIn: boolean = false;
+  isEmployee: boolean = false;
 
     constructor(
       private router: Router,
@@ -28,6 +29,7 @@ export class NavbarComponent implements OnInit{
 
   ngOnInit(): void {
     this.isAdmin = this.authService.hasRole('ADMIN');
+    this.isEmployee = this.authService.hasRole('EMPLOYEE');
     this.isLogedIn = this.authService.isAuthenticated();
   }
 
