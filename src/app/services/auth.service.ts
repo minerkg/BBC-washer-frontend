@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject, tap, switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import {environment} from "../../environments/environment";
+import { Router } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+    ) {
     const storedRole = isPlatformBrowser(this.platformId)
       ? localStorage.getItem(this.USER_ROLE_STORAGE_KEY)
       : null;
@@ -58,6 +59,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.BASIC_AUTH_STORAGE_KEY);
       localStorage.removeItem(this.USER_ROLE_STORAGE_KEY);
+      localStorage.removeItem(this.USER_PROFILE_STORAGE_KEY);
     }
     this.currentUserRoleSubject.next(null);
   }
