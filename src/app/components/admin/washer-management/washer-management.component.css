@@ -1,0 +1,7 @@
+::ng-deep .p-dialog .p-dialog-content {
+    overflow: visible !important;
+  }
+  
+  ::ng-deep .p-dropdown-panel {
+    z-index: 9999 !important;
+  }
