@@ -53,13 +53,12 @@ export class RegisterComponent {
     };
 
     this.authService.register(registrationData).subscribe({
-      next: (response: any) => { // <--- Explicitly type 'response' as any (or a specific DTO if you have one)
+      next: (response: any) => { 
         console.log('Registration successful:', response);
         this.messageService.add({severity:'success', summary:'Success', detail:'Registration Successful! You can now log in.'});
         this.resetForm();
-        this.router.navigate(['/login']);
       },
-      error: (error: any) => { // <--- Explicitly type 'error' as any (or HttpErrorResponse)
+      error: (error: any) => { 
         console.error('Registration failed:', error);
         let errorMessage = 'Registration failed. Please try again.';
         if (error.status === 409 && error.error && typeof error.error.body === 'string') {

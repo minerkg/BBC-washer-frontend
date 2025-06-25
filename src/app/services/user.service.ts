@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user.model'; // Import User model
 import { environment } from '../../environments/environment';
 import { UpdateUserDto } from '../models/dtos/updateUser.model';
+import { FullUser } from '../models/FullUser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,4 +46,23 @@ export class UserService {
     const url = `${this.API_BASE_URL}/public/auth/change-password`; // Or your specific endpoint for password change
     return this.http.put(url, passwordChangeRequest, { headers, observe: 'response' });
   }
+
+  getAllUsers(): Observable<FullUser[]> {
+    const headers = this.authService.getAuthHeaders(true);
+    return this.http.get<FullUser[]>(`${this.API_BASE_URL}/users`, {headers});
+  }
+
+  updateUserRole(username: string, newRole: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders(true);
+    return this.http.put(`${this.API_BASE_URL}/users/update-role`, {
+      username,
+      newRole
+    },{headers});
+  }
+
+
+
+
+
+
 }

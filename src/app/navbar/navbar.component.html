@@ -10,7 +10,7 @@
     <p-button *ngIf="!(isAdmin || isEmployee)" label="My Reservations" routerLink="my-reservations"></p-button>
     <p-button label="Profile" routerLink="my-profile"></p-button>
     <p-button *ngIf="isAdmin || isEmployee" label="RESOURCES (Admin)" routerLink="admin/washers" styleClass="p-button-warning"></p-button>
-    <p-button *ngIf="isAdmin" label="User Manager" routerLink="admin/user-manager" styleClass="p-button-warning"></p-button>
+    <p-button *ngIf="isAdmin || isEmployee" label="User Manager" routerLink="admin/user-manager" styleClass="p-button-warning"></p-button>
     <p-button *ngIf="isAdmin || isEmployee" label="Reservation Manager" routerLink="admin/reservation-manager" styleClass="p-button-warning"></p-button>
 
     <p-button label="Logout" (onClick)="logout()" icon="pi pi-power-off" styleClass="p-button-danger"></p-button>

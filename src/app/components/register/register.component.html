@@ -1,6 +1,5 @@
-<div class="flex justify-content-center align-items-center min-h-screen"
-     style="background-image: url('assets/images/laundry_room.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
-  <p-card header="Register New Account" styleClass="p-shadow-24" [style]="{width: '400px'}">
+<div class="flex justify-content-center align-items-center min-h-screen">
+ <p-card header="Register New Account" styleClass="p-shadow-24" [style]="{width: '400px'}">
     <div class="p-fluid">
       <div class="field">
         <label for="regUsername" class="text-color">Username</label>
@@ -29,7 +28,6 @@
 
       <div class="flex justify-content-end gap-2 mt-5">
         <p-button label="Register" (onClick)="registerUser()" icon="pi pi-user-plus" />
-        <p-button label="Back to Login" [routerLink]="['/login']" styleClass="p-button-secondary" />
       </div>
     </div>
   </p-card>
