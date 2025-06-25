@@ -16,6 +16,8 @@ import { DividerModule } from 'primeng/divider';
 // Importuri pentru estetică (fără PasswordModule)
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
+import { AuthService } from '../../services/auth.service';
+import { RouterModule,Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +33,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     ButtonModule,
     DividerModule,
     AvatarModule,
-    SkeletonModule
+    SkeletonModule,
+    RouterModule
 
   ],
   templateUrl: './profile.component.html',
@@ -52,7 +55,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +111,7 @@ export class ProfileComponent implements OnInit {
 
     this.userService.updateUserProfile(this.editedUser).subscribe({
       next: (response) => {
+        console.log(response.body)
         this.messageService.add({severity:'success', summary:'Succes', detail:'Profilul a fost actualizat cu succes!'});
 
         if (this.user) {
@@ -154,6 +160,9 @@ export class ProfileComponent implements OnInit {
         this.currentPassword = '';
         this.newPassword = '';
         this.confirmNewPassword = '';
+        this.authService.logout();
+        this.router.navigate(['/login']);
+        
       },
       error: (error) => {
         console.error('Eroare la schimbarea parolei:', error);

@@ -4,12 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { User } from '../models/user.model'; // Import User model
+import { environment } from '../../environments/environment';
+import { UpdateUserDto } from '../models/dtos/updateUser.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private API_BASE_URL = 'http://localhost:8082/api/v1'; // Ensure this matches your backend
+  private API_BASE_URL =  environment.API_BASE_URL; 
 
   constructor(
     private http: HttpClient,
@@ -20,17 +22,18 @@ export class UserService {
    * Updates the authenticated user's profile details.
    * @param user The user object with updated fields (first_name, last_name, email, phone).
    */
-  updateUserProfile(user: Partial<User>): Observable<any> {
+  updateUserProfile(updatedUser: User): Observable<any> {
     const headers = this.authService.getAuthHeaders(true); // Content-Type: application/json
-    const url = `${this.API_BASE_URL}/user/update`; // Or your specific endpoint for profile update
-    // Send only the fields that can be updated by the user
-    const updateData = {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      phone: user.phone
-    };
-    return this.http.put(url, updateData, { headers, observe: 'response' });
+    const url = `${this.API_BASE_URL}/public/auth/update-user`; // Or your specific endpoint for profile update
+   const userRequest: UpdateUserDto = {
+    username: updatedUser.username,
+    first_name: updatedUser.first_name,
+    last_name: updatedUser.last_name,
+    email: updatedUser.email,
+    phone: updatedUser.phone
+   }
+
+    return this.http.put(url, userRequest, { headers});
   }
 
   /**
