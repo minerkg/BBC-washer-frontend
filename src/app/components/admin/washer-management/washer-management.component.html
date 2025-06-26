@@ -1,11 +1,11 @@
 <div class="p-grid p-justify-center p-align-center p-mt-5">
   <div class="p-col-12 p-md-8 p-lg-6">
-    <p-card styleClass="p-shadow-24" >
+    <p-card styleClass="p-shadow-24">
       <div class="p-fluid p-mb-4">
         <div *ngIf="washers && washers.length > 0; else noWashers">
           <!-- Search Bar -->
           <div class="p-d-flex p-ai-center p-mb-3">
-            <span class="p-input-icon-left" style="width: 250px;">
+            <span class="p-input-icon-left" [style]="{ 'width': '250px', 'margin-bottom': '0.5rem' }">
               <i class="pi pi-search"></i>
               <input
                 type="text"
@@ -43,17 +43,20 @@
                   <p-tag [value]="washer.status" [severity]="getSeverity(washer.status)"></p-tag>
                 </td>
                 <td>
-                  <p-button
-                    icon="pi pi-pencil"
-                    styleClass="p-button-sm p-button-info p-mr-2"
-                    (onClick)="editWasher(washer)"
-                  ></p-button>
-                  <p-button
-                    *ngIf="isAdmin && washer.status !== 'DECOMMISSIONED'"
-                    icon="pi pi-power-off"
-                    styleClass="p-button-sm p-button-danger"
-                    (onClick)="confirmDecommission(washer.id)"
-                  ></p-button>
+                  <div class="p-d-flex p-ai-center">
+                    <p-button
+                      icon="pi pi-pencil"
+                      styleClass="p-button-sm p-button-info"
+                      (onClick)="editWasher(washer)"
+                      [style]="{ 'margin-right': '0.5rem' }"
+                    ></p-button>
+                    <p-button
+                      *ngIf="isAdmin && washer.status !== 'DECOMMISSIONED'"
+                      icon="pi pi-power-off"
+                      styleClass="p-button-sm p-button-danger"
+                      (onClick)="confirmDecommission(washer.id)"
+                    ></p-button>
+                  </div>
                 </td>
               </tr>
             </ng-template>
@@ -104,11 +107,11 @@
   <div class="p-fluid mb-5">
     <div class="p-field">
       <label for="editWasherName">Name</label>
-      <input id="editWasherName" type="text" pInputText [(ngModel)]="selectedWasher.name" />
+      <input id="editWasherName" type="text" pInputText [(ngModel)]="selectedWasher.name"/>
     </div>
     <div class="p-field p-mt-3">
       <label for="editWasherCapacity">Capacity (kg)</label>
-      <input id="editWasherCapacity" type="number" pInputText [(ngModel)]="selectedWasher.capacity" />
+      <input id="editWasherCapacity" type="number" pInputText [(ngModel)]="selectedWasher.capacity"/>
     </div>
     <div class="p-field p-mt-3 mb-4">
       <label for="editWasherStatus">Status</label>
@@ -145,11 +148,11 @@
   <div class="p-fluid">
     <div class="p-field">
       <label for="washerName">Name</label>
-      <input id="washerName" type="text" pInputText [(ngModel)]="newWasher.name" required />
+      <input id="washerName" type="text" pInputText [(ngModel)]="newWasher.name" required/>
     </div>
     <div class="p-field p-mt-3">
       <label for="washerCapacity">Capacity (kg)</label>
-      <input id="washerCapacity" type="number" pInputText [(ngModel)]="newWasher.capacity" required />
+      <input id="washerCapacity" type="number" pInputText [(ngModel)]="newWasher.capacity" required/>
     </div>
     <div class="p-field p-mt-3">
       <label for="washerStatus">Status</label>

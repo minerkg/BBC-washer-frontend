@@ -1,7 +1,15 @@
 ::ng-deep .p-dialog .p-dialog-content {
-    overflow: visible !important;
-  }
-  
-  ::ng-deep .p-dropdown-panel {
-    z-index: 9999 !important;
-  }
+  overflow: visible !important;
+}
+
+::ng-deep .p-dropdown-panel {
+  z-index: 9999 !important;
+}
+
+::ng-deep .p-d-flex .p-button {
+  margin-right: 0.5rem;
+}
+
+::ng-deep .p-d-flex .p-button:last-child {
+  margin-right: 0;
+}

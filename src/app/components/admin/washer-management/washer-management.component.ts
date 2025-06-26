@@ -89,17 +89,31 @@ export class WasherManagementComponent implements OnInit {
     this.washerService.getAllWashers().subscribe({
       next: (response) => {
         if (response && response.body) {
-          this.washers = response.body;
+          this.washers = response.body.sort((a: any, b: any) =>
+            a.name.localeCompare(b.name)
+          );
           console.log('All Washers:', this.washers);
-          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Washers loaded successfully.'});
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Washers loaded successfully.'
+          });
         } else {
           this.washers = [];
-          this.messageService.add({severity: 'info', summary: 'Info', detail: 'No washers found.'});
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Info',
+            detail: 'No washers found.'
+          });
         }
       },
       error: (error) => {
         console.error('Error loading washers:', error);
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to load washers.'});
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load washers.'
+        });
         if (error.status === 403) {
           this.messageService.add({
             severity: 'error',
@@ -110,6 +124,7 @@ export class WasherManagementComponent implements OnInit {
       }
     });
   }
+
 
   addWasher(): void {
     if (!this.newWasher.name || this.newWasher.capacity === null || this.newWasher.status === null) {
