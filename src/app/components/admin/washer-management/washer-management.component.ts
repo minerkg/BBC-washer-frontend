@@ -245,4 +245,14 @@ export class WasherManagementComponent implements OnInit {
     );
   }
 
+  displayAddDialog: boolean = false;
+
+  resetNewWasherForm() {
+    this.newWasher = {
+      name: '',
+      capacity: null,
+      status: ''
+    };
+  }
+
 }
