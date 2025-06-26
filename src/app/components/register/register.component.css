@@ -1,0 +1,9 @@
+.register-background {
+  background-image: url('/assets/images/laundry_room.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}

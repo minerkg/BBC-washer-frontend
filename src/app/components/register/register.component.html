@@ -1,35 +1,41 @@
-<div class="flex justify-content-center align-items-center min-h-screen">
- <p-card header="Register New Account" styleClass="p-shadow-24" [style]="{width: '400px'}">
-    <div class="p-fluid">
-      <div class="field">
-        <label for="regUsername" class="text-color">Username</label>
-        <input id="regUsername" type="text" pInputText [(ngModel)]="username" required />
-      </div>
-      <div class="field mt-4">
-        <label for="regPassword" class="text-color">Password</label>
-        <input id="regPassword" type="password" pInputText [(ngModel)]="password" required />
-      </div>
-      <div class="field mt-4">
-        <label for="regFirstName" class="text-color">First Name</label>
-        <input id="regFirstName" type="text" pInputText [(ngModel)]="first_name" required />
-      </div>
-      <div class="field mt-4">
-        <label for="regLastName" class="text-color">Last Name</label>
-        <input id="regLastName" type="text" pInputText [(ngModel)]="last_name" required />
-      </div>
-      <div class="field mt-4">
-        <label for="regEmail" class="text-color">Email</label>
-        <input id="regEmail" type="email" pInputText [(ngModel)]="email" required />
-      </div>
-      <div class="field mt-4">
-        <label for="regPhone" class="text-color">Phone Number</label>
-        <input id="regPhone" type="text" pInputText [(ngModel)]="phone_nr" required />
-      </div>
+<div class="register-background">
+  <div class="register-card-position">
+    <div class="flex justify-content-center align-items-center min-h-screen">
+      <p-card header="Register New Account" styleClass="p-shadow-24" [style]="{width: '400px'}">
+        <div class="p-fluid">
+          <div class="field">
+            <label for="regUsername" class="text-color">Username</label>
+            <input id="regUsername" type="text" pInputText [(ngModel)]="username" required/>
+          </div>
+          <div class="field mt-4">
+            <label for="regPassword" class="text-color">Password</label>
+            <input id="regPassword" type="password" pInputText [(ngModel)]="password" required/>
+          </div>
+          <div class="field mt-4">
+            <label for="regFirstName" class="text-color">First Name</label>
+            <input id="regFirstName" type="text" pInputText [(ngModel)]="first_name" required/>
+          </div>
+          <div class="field mt-4">
+            <label for="regLastName" class="text-color">Last Name</label>
+            <input id="regLastName" type="text" pInputText [(ngModel)]="last_name" required/>
+          </div>
+          <div class="field mt-4">
+            <label for="regEmail" class="text-color">Email</label>
+            <input id="regEmail" type="email" pInputText [(ngModel)]="email" required/>
+          </div>
+          <div class="field mt-4">
+            <label for="regPhone" class="text-color">Phone Number</label>
+            <input id="regPhone" type="text" pInputText [(ngModel)]="phone_nr" required/>
+          </div>
 
-      <div class="flex justify-content-end gap-2 mt-5">
-        <p-button label="Register" (onClick)="registerUser()" icon="pi pi-user-plus" />
-      </div>
+          <div class="flex justify-content-end gap-2 mt-5">
+            <p-button label="Back" (onClick)="goToLogin()" icon="pi pi-arrow-left"
+                      styleClass="p-button-secondary"/>
+            <p-button label="Register" (onClick)="registerUser()" icon="pi pi-user-plus"/>
+          </div>
+        </div>
+      </p-card>
     </div>
-  </p-card>
+    <p-toast></p-toast>
+  </div>
 </div>
-<p-toast></p-toast>

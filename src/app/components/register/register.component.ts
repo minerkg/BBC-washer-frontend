@@ -41,6 +41,10 @@ export class RegisterComponent {
     private router: Router
   ) { }
 
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
   registerUser() {
     console.log('Attempting registration with:', this.username, this.email);
     const registrationData = {
@@ -53,12 +57,12 @@ export class RegisterComponent {
     };
 
     this.authService.register(registrationData).subscribe({
-      next: (response: any) => { 
+      next: (response: any) => {
         console.log('Registration successful:', response);
         this.messageService.add({severity:'success', summary:'Success', detail:'Registration Successful! You can now log in.'});
         this.resetForm();
       },
-      error: (error: any) => { 
+      error: (error: any) => {
         console.error('Registration failed:', error);
         let errorMessage = 'Registration failed. Please try again.';
         if (error.status === 409 && error.error && typeof error.error.body === 'string') {

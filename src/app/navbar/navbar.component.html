@@ -1,19 +1,33 @@
-<header style="background-color: #333; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
-  <!-- Left side: App name -->
-  <div style="flex: 1;">
-    <h1 style="margin: 0;">Washer Booking App</h1>
+<header
+  style="background-color: #45808D; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+  <!-- Left side: Logo & App name -->
+  <div style="display: flex; align-items: center;">
+    <img src="assets/images/bbc_logo.png" alt="BBC Logo" style="height: 80px; margin-right: 16px;">
+    <div>
+      <h1 style="margin: 0;">Broke But Clean</h1>
+      <div style="font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">
+        Student laundry service
+      </div>
+    </div>
+
   </div>
 
-  <!-- Right side: Actions -->
-  <div class="navbar-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; align-items: center;" *ngIf="isLogedIn; else login">
-    <p-button label="NEW BOOKING" routerLink="washers"></p-button>
-    <p-button *ngIf="!(isAdmin || isEmployee)" label="My Reservations" routerLink="my-reservations"></p-button>
-    <p-button label="Profile" routerLink="my-profile"></p-button>
-    <p-button *ngIf="isAdmin || isEmployee" label="RESOURCES (Admin)" routerLink="admin/washers" styleClass="p-button-warning"></p-button>
-    <p-button *ngIf="isAdmin || isEmployee" label="User Manager" routerLink="admin/user-manager" styleClass="p-button-warning"></p-button>
-    <p-button *ngIf="isAdmin || isEmployee" label="Reservation Manager" routerLink="admin/reservation-manager" styleClass="p-button-warning"></p-button>
 
-    <p-button label="Logout" (onClick)="logout()" icon="pi pi-power-off" styleClass="p-button-danger"></p-button>
+  <!-- Right side: Actions -->
+  <div class="navbar-actions"
+       style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; align-items: center;"
+       *ngIf="isLogedIn; else login">
+    <p-button label="NEW BOOKING" routerLink="washers" styleClass="p-button-info"></p-button>
+    <p-button *ngIf="!(isAdmin || isEmployee)" label="MY RESERVATIONS" routerLink="my-reservations"
+              styleClass="p-button-info"></p-button>
+    <p-button *ngIf="isAdmin || isEmployee" label="ALL RESERVATIONS" routerLink="admin/reservation-manager"
+              styleClass="p-button-info"></p-button>
+    <p-button *ngIf="isAdmin || isEmployee" label="RESOURCES" routerLink="admin/washers"
+              styleClass="p-button-primary"></p-button>
+    <p-button *ngIf="isAdmin || isEmployee" label="USERS" routerLink="admin/user-manager"
+              styleClass="p-button-warning"></p-button>
+    <p-button label="PROFILE" routerLink="my-profile" styleClass="p-button-warning"></p-button>
+    <p-button (onClick)="logout()" icon="pi pi-power-off" styleClass="p-button-danger"></p-button>
   </div>
 
   <!-- Login button if not logged in -->
