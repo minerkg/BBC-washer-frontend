@@ -11,8 +11,8 @@
 .login-card-position {
   position: absolute;
   top: 10%;
-  right: 6%;
-  /* transform: scale(0.65); */
+  right: 4%;
+  transform: scale(0.65);
   transform-origin: top left;
   border: 4px solid #f26522;
   border-radius: 8px;
