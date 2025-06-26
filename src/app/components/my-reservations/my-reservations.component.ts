@@ -9,6 +9,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api'; // Import ConfirmationService
 import { ConfirmDialogModule } from 'primeng/confirmdialog'; // Import ConfirmDialogModule
 import { RouterModule } from '@angular/router'; // If needed for links
+import { ProfileService } from '../../services/profile.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-my-reservations',
@@ -24,29 +26,27 @@ import { RouterModule } from '@angular/router'; // If needed for links
   ],
   templateUrl: './my-reservations.component.html',
   styleUrl: './my-reservations.component.css',
-  providers: [MessageService, ConfirmationService] // Provide MessageService and ConfirmationService
+  providers: [MessageService, ConfirmationService]
 })
 export class MyReservationsComponent implements OnInit {
   reservations: any[] = [];
-  currentUserId: number | null = null; // Still needs to be dynamically obtained
+  currentUserId: number | null = null;
 
   constructor(
     private reservationService: ReservationService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService // Inject ConfirmationService
+    private confirmationService: ConfirmationService,
+    private profileService: ProfileService 
   ) { }
 
   ngOnInit(): void {
-    // THIS IS A PLACEHOLDER: You need to implement how to get the actual logged-in User ID.
-    // For testing, you might temporarily use a known ID if you're sure.
-    // A robust solution would involve an AuthStateService that holds user info.
-    this.currentUserId = 1; // Example: Assuming user with ID 1 is logged in for now.
-
+   const user: User =  JSON.parse(this.profileService.getProfileFromLocalStorage()!);
+    this.currentUserId =user.id;
     this.loadMyReservations();
   }
 
   loadMyReservations(): void {
-    this.reservationService.getAllReservationsByUser().subscribe({
+    this.reservationService.getAllReservationsByUser(this.currentUserId!).subscribe({
       next: (response) => {
         if (response && response.body) {
           this.reservations = response.body;
