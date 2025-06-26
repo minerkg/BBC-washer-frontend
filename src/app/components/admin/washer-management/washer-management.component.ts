@@ -35,13 +35,13 @@ import { AuthService } from '../../../services/auth.service'; // <--- Import Aut
   ],
   templateUrl: './washer-management.component.html',
   styleUrl: './washer-management.component.css',
-  providers: [MessageService, ConfirmationService] 
+  providers: [MessageService, ConfirmationService]
 })
 export class WasherManagementComponent implements OnInit {
   washers: any[] = [];
   newWasher: any = { name: '', capacity: null, status: null };
-  washerStatuses: any[] = []; 
-  washerStatusesForEdit: any[] = []; 
+  washerStatuses: any[] = [];
+  washerStatusesForEdit: any[] = [];
 
   displayEditDialog: boolean = false;
   selectedWasher: any = {};
@@ -51,17 +51,19 @@ export class WasherManagementComponent implements OnInit {
     private washerService: WasherService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private authService: AuthService 
+    private authService: AuthService
   ) {
 
     this.washerStatuses = [
       { label: 'Available', value: 'AVAILABLE' },
-      { label: 'Maintenance', value: 'MAINTENANCE' }
+      { label: 'Maintenance', value: 'MAINTENANCE' },
+      { label: 'Decommissioned', value: 'DECOMMISSIONED' }
     ];
-   
+
     this.washerStatusesForEdit = [
       { label: 'Available', value: 'AVAILABLE' },
-      { label: 'Maintenance', value: 'MAINTENANCE' }
+      { label: 'Maintenance', value: 'MAINTENANCE' },
+      { label: 'Decommissioned', value: 'DECOMMISSIONED' }
     ];
   }
 
@@ -71,13 +73,13 @@ export class WasherManagementComponent implements OnInit {
       if (role === 'ADMIN' || role === 'EMPLOYEE') {
         this.loadWashers();
       } else {
-       
+
         this.messageService.add({severity:'error', summary:'Access Denied', detail:'You do not have permission to manage washers.'});
       }
     });
 
     this.isAdmin=this.authService.hasRole('ADMIN');
-    
+
   }
 
   loadWashers(): void {
@@ -193,6 +195,7 @@ export class WasherManagementComponent implements OnInit {
     switch (status) {
       case 'AVAILABLE': return 'success';
       case 'MAINTENANCE': return 'warning';
+      case 'DECOMMISSIONED': return 'danger';
       default: return 'secondary';
     }
   }
