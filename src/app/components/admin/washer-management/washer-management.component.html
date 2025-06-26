@@ -40,7 +40,7 @@
               <td><p-tag [value]="washer.status" [severity]="getSeverity(washer.status)"></p-tag></td>
               <td>
                 <p-button icon="pi pi-pencil" styleClass="p-button-sm p-button-info p-mr-2" (onClick)="editWasher(washer)"></p-button>
-                <p-button *ngIf="isAdmin && washer.status !== 'decommissioned'" icon="pi pi-trash" styleClass="p-button-sm p-button-danger" (onClick)="confirmDecommission(washer.id)"></p-button>
+                <p-button *ngIf="isAdmin && washer.status !== 'DECOMMISSIONED'" icon="pi pi-power-off" styleClass="p-button-sm p-button-danger" (onClick)="confirmDecommission(washer.id)"></p-button>
               </td>
             </tr>
           </ng-template>
