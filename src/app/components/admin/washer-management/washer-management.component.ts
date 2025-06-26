@@ -62,8 +62,7 @@ export class WasherManagementComponent implements OnInit {
 
     this.washerStatusesForEdit = [
       { label: 'Available', value: 'AVAILABLE' },
-      { label: 'Maintenance', value: 'MAINTENANCE' },
-      { label: 'Decommissioned', value: 'DECOMMISSIONED' }
+      { label: 'Maintenance', value: 'MAINTENANCE' }
     ];
   }
 
@@ -157,33 +156,33 @@ export class WasherManagementComponent implements OnInit {
     });
   }
 
-  confirmDelete(washerId: number): void {
+  confirmDecommission(washerId: number): void {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this washer? This action cannot be undone.',
-      header: 'Delete Washer',
+      message: 'Are you sure you want to decommission this washer?',
+      header: 'Decommission Washer',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         console.log(washerId);
-        this.deleteWasher(washerId);
+        this.decommissionWasher(washerId);
       },
       reject: () => {
-        this.messageService.add({severity:'info', summary:'Cancelled', detail:'Deletion cancelled.'});
+        this.messageService.add({severity:'info', summary:'Cancelled', detail:'Decommission cancelled.'});
       }
     });
   }
 
-  deleteWasher(washerId: number): void {
-    this.washerService.deleteWasher(washerId).subscribe({
+  decommissionWasher(washerId: number): void {
+    this.washerService.decommissionWasher(washerId).subscribe({
       next: (response) => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Washer deleted successfully!'});
-        console.log('Washer deleted:', response.body);
+        this.messageService.add({severity:'success', summary:'Success', detail:'Washer decommissioned successfully!'});
+        console.log('Washer decommissioned:', response.body);
         this.loadWashers(); // Reload list
       },
       error: (error) => {
-        console.error('Error deleting washer:', error);
-        this.messageService.add({severity:'error', summary:'Error', detail:'Failed to delete washer.'});
+        console.error('Error decommission washer:', error);
+        this.messageService.add({severity:'error', summary:'Error', detail:'Failed to decommission washer.'});
         if (error.status === 403) {
-          this.messageService.add({severity:'error', summary:'Access Denied', detail:'You do not have permission to delete washers.'});
+          this.messageService.add({severity:'error', summary:'Access Denied', detail:'You do not have permission to decommission washers.'});
         } else if (error.status === 404) {
           this.messageService.add({severity:'error', summary:'Not Found', detail:'Washer not found.'});
         }

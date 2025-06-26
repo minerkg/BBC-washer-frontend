@@ -36,7 +36,7 @@ export class WasherService {
     return this.http.put(`${this.API_BASE_URL}/admin/washers/${id}`, washerData, { headers });
   }
 
-  deleteWasher(id: number): Observable<any> {
+  decommissionWasher(id: number): Observable<any> {
     const headers = this.authService.getAuthHeaders(false);
     return this.http.delete(`${this.API_BASE_URL}/admin/washers/${id}`, { headers });
   }
