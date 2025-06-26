@@ -6,18 +6,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../../services/user.service';
-// Importuri PrimeNG
+// PrimeNG imports
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-// Importuri pentru estetică (fără PasswordModule)
+// Aesthetic modules (without PasswordModule)
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AuthService } from '../../services/auth.service';
-import { RouterModule,Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +25,7 @@ import { RouterModule,Router } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    // Module PrimeNG
+    // PrimeNG Modules
     CardModule,
     InputTextModule,
     TagModule,
@@ -35,7 +35,6 @@ import { RouterModule,Router } from '@angular/router';
     AvatarModule,
     SkeletonModule,
     RouterModule
-
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
@@ -69,16 +68,16 @@ export class ProfileComponent implements OnInit {
 
     if (foundUser) {
       this.user = JSON.parse(foundUser);
-      this.messageService.add({severity:'success', summary:'Succes', detail:'Profilul a fost încărcat din memoria locală.'});
+      this.messageService.add({severity:'success', summary:'Success', detail:'Profile loaded from local storage.'});
     } else {
       this.profileService.getProfileFromBackend().subscribe({
         next: (data) => {
           this.user = data;
-          this.messageService.add({severity:'success', summary:'Succes', detail:'Profilul a fost încărcat de pe server.'});
+          this.messageService.add({severity:'success', summary:'Success', detail:'Profile loaded from server.'});
         },
         error: (error) => {
-          console.error('Eroare la preluarea profilului:', error);
-          this.messageService.add({severity:'error', summary:'Eroare', detail:'Nu s-a putut încărca profilul.'});
+          console.error('Error retrieving profile:', error);
+          this.messageService.add({severity:'error', summary:'Error', detail:'Failed to load profile.'});
         }
       });
     }
@@ -94,25 +93,24 @@ export class ProfileComponent implements OnInit {
   cancelEdit(): void {
     this.editedUser = null;
     this.editMode = false;
-    this.messageService.add({severity:'info', summary:'Anulat', detail:'Editarea profilului a fost anulată.'});
+    this.messageService.add({severity:'info', summary:'Cancelled', detail:'Profile editing has been cancelled.'});
   }
 
   saveProfile(): void {
     if (!this.editedUser) {
-      this.messageService.add({severity:'error', summary:'Eroare', detail:'Nu există date de profil pentru a salva.'});
+      this.messageService.add({severity:'error', summary:'Error', detail:'No profile data available to save.'});
       return;
     }
 
     if (!this.editedUser.first_name || !this.editedUser.last_name || !this.editedUser.email || !this.editedUser.phone) {
-      this.messageService.add({severity:'warn', summary:'Atenție', detail:'Vă rugăm să completați toate câmpurile obligatorii.'});
-
+      this.messageService.add({severity:'warn', summary:'Warning', detail:'Please complete all required fields.'});
       return;
     }
 
     this.userService.updateUserProfile(this.editedUser).subscribe({
       next: (response) => {
         console.log(response.body)
-        this.messageService.add({severity:'success', summary:'Succes', detail:'Profilul a fost actualizat cu succes!'});
+        this.messageService.add({severity:'success', summary:'Success', detail:'Profile updated successfully!'});
 
         if (this.user) {
           this.user.first_name = this.editedUser!.first_name;
@@ -120,31 +118,32 @@ export class ProfileComponent implements OnInit {
           this.user.email = this.editedUser!.email;
           this.user.phone = this.editedUser!.phone;
           localStorage.setItem(this.profileService.getProfileStorageKey(), JSON.stringify(this.user));
-
         }
+
         this.editMode = false;
         this.editedUser = null;
       },
       error: (error) => {
-        console.error('Eroare la actualizarea profilului:', error);
-        const errorMessage = error.error?.message || 'Nu s-a putut actualiza profilul.';
-        this.messageService.add({severity:'error', summary:'Eroare', detail: errorMessage});
-
+        console.error('Error updating profile:', error);
+        const errorMessage = error.error?.message || 'Could not update the profile.';
+        this.messageService.add({severity:'error', summary:'Error', detail: errorMessage});
       }
     });
   }
 
   changePassword(): void {
     if (!this.currentPassword || !this.newPassword || !this.confirmNewPassword) {
-      this.messageService.add({severity:'warn', summary:'Atenție', detail:'Vă rugăm să completați toate câmpurile pentru parolă.'});
+      this.messageService.add({severity:'warn', summary:'Warning', detail:'Please fill in all the password fields.'});
       return;
     }
+
     if (this.newPassword !== this.confirmNewPassword) {
-      this.messageService.add({severity:'error', summary:'Eroare', detail:'Parola nouă și confirmarea nu se potrivesc.'});
+      this.messageService.add({severity:'error', summary:'Error', detail:'New password and confirmation do not match.'});
       return;
     }
+
     if (this.newPassword.length < 6) {
-      this.messageService.add({severity:'error', summary:'Eroare', detail:'Parola nouă trebuie să aibă cel puțin 6 caractere.'});
+      this.messageService.add({severity:'error', summary:'Error', detail:'New password must be at least 6 characters long.'});
       return;
     }
 
@@ -155,24 +154,23 @@ export class ProfileComponent implements OnInit {
 
     this.userService.changeUserPassword(passwordChangeRequest).subscribe({
       next: (response) => {
-        this.messageService.add({severity:'success', summary:'Succes', detail:'Parola a fost schimbată cu succes!'});
+        this.messageService.add({severity:'success', summary:'Success', detail:'Password changed successfully!'});
 
         this.currentPassword = '';
         this.newPassword = '';
         this.confirmNewPassword = '';
         this.authService.logout();
         this.router.navigate(['/login']);
-        
       },
       error: (error) => {
-        console.error('Eroare la schimbarea parolei:', error);
-        let errorMessage = 'Nu s-a putut schimba parola.';
+        console.error('Error changing password:', error);
+        let errorMessage = 'Could not change password.';
         if (error.status === 401 || error.status === 403) {
-          errorMessage = 'Parola curentă este incorectă sau acțiunea nu este autorizată.';
+          errorMessage = 'Current password is incorrect or action is not authorized.';
         } else if (error.error?.message) {
           errorMessage = error.error.message;
         }
-        this.messageService.add({severity:'error', summary:'Eroare', detail: errorMessage});
+        this.messageService.add({severity:'error', summary:'Error', detail: errorMessage});
       }
     });
   }
