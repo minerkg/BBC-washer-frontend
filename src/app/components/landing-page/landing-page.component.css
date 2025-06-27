@@ -15,11 +15,3 @@
   transform-origin: top left;
 }
 
-::ng-deep .tight-card-no-padding .p-card,
-::ng-deep .tight-card-no-padding .p-card-body,
-::ng-deep .tight-card-no-padding .p-card-content {
-  padding: 0.25rem;
-  margin: 0;
-  width: fit-content;
-}
-
