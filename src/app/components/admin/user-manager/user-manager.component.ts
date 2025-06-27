@@ -13,23 +13,24 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../../services/auth.service';
 import { RegisterComponent } from '../../register/register.component';
 import { DialogModule } from 'primeng/dialog';
+import {CardModule} from "primeng/card";
 
 @Component({
   selector: 'app-user-manager',
   standalone: true,
-  imports: [CommonModule,
-    FormsModule,
-    TableModule,
-    DropdownModule,
-    ButtonModule,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule,
-    InputTextModule,
-    RegisterComponent,
-    DialogModule
+    imports: [CommonModule,
+        FormsModule,
+        TableModule,
+        DropdownModule,
+        ButtonModule,
+        ButtonModule,
+        ToastModule,
+        ConfirmDialogModule,
+        InputTextModule,
+        RegisterComponent,
+        DialogModule, CardModule
 
-  ],
+    ],
   templateUrl: './user-manager.component.html',
   styleUrl: './user-manager.component.css',
   providers: [MessageService,ConfirmationService]
