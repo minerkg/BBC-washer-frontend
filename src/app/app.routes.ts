@@ -7,7 +7,7 @@ import {BookableUnitsComponent} from './components/bookable-units/bookable-units
 import {MyReservationsComponent} from './components/my-reservations/my-reservations.component';
 import {WasherManagementComponent} from './components/admin/washer-management/washer-management.component';
 import {ProfileComponent} from './components/profile/profile.component';
-import {UserManagerComponent} from './components/user-manager/user-manager.component';
+import {UserManagerComponent} from './components/admin/user-manager/user-manager.component';
 import {ReservationManagerComponent} from './components/reservation-manager/reservation-manager.component';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 

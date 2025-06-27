@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { FullUser } from '../../models/FullUser.model';
+import { UserService } from '../../../services/user.service';
+import { FullUser } from '../../../models/FullUser.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
@@ -10,8 +10,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthService } from '../../services/auth.service';
-import { RegisterComponent } from '../register/register.component';
+import { AuthService } from '../../../services/auth.service';
+import { RegisterComponent } from '../../register/register.component';
 import { DialogModule } from 'primeng/dialog';
 
 @Component({
@@ -28,7 +28,7 @@ import { DialogModule } from 'primeng/dialog';
     InputTextModule,
     RegisterComponent,
     DialogModule
-  
+
   ],
   templateUrl: './user-manager.component.html',
   styleUrl: './user-manager.component.css',
@@ -53,7 +53,7 @@ export class UserManagerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
+
     this.isAdmin = this.authService.hasRole('ADMIN');
     if(this.isAdmin){
       this.loadUsers();
