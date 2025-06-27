@@ -11,6 +11,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog'; // Import ConfirmDi
 import { RouterModule } from '@angular/router'; // If needed for links
 import { ProfileService } from '../../services/profile.service';
 import { User } from '../../models/user.model';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-my-reservations',
@@ -22,7 +23,8 @@ import { User } from '../../models/user.model';
     ButtonModule,
     ToastModule,
     ConfirmDialogModule, // Add ConfirmDialogModule
-    RouterModule
+    RouterModule,
+    TooltipModule
   ],
   templateUrl: './my-reservations.component.html',
   styleUrl: './my-reservations.component.css',
@@ -36,7 +38,7 @@ export class MyReservationsComponent implements OnInit {
     private reservationService: ReservationService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private profileService: ProfileService 
+    private profileService: ProfileService
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +53,8 @@ export class MyReservationsComponent implements OnInit {
         if (response && response.body) {
           this.reservations = response.body;
           console.log('My Reservations:', this.reservations);
-          this.messageService.add({severity:'success', summary:'Success', detail:'Your reservations loaded successfully.'});
+          //TODO: remove
+          // this.messageService.add({severity:'success', summary:'Success', detail:'Your reservations loaded successfully.'});
         } else {
           this.reservations = [];
           this.messageService.add({severity:'info', summary:'Info', detail:'You have no reservations.'});

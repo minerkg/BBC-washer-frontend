@@ -20,16 +20,19 @@
           <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
           <td>{{ reservation.bookableUnit?.washer?.capacity || 'N/A' }} kg</td>
           <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date }}</td>
-          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime }} - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime }}</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime }}
+            - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime }}
+          </td>
           <td>
             <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
           </td>
           <td>
             <p-button *ngIf="reservation.status === 'CONFIRMED'"
-                      icon="pi pi-times"
-                      label="Cancel"
+                      icon="pi pi-power-off"
                       styleClass="p-button-danger p-button-sm"
-                      (onClick)="confirmCancel(reservation.id)" />
+                      (onClick)="confirmCancel(reservation.id)"
+                      pTooltip="Cancel reservation"
+                      tooltipPosition="top"/>
           </td>
         </tr>
       </ng-template>

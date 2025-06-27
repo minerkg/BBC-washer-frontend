@@ -14,7 +14,8 @@ import {TagModule} from 'primeng/tag'; // For p-tag
 import {ConfirmDialogModule} from 'primeng/confirmdialog'; // For p-confirmDialog
 import {DialogModule} from 'primeng/dialog'; // For p-dialog
 import {DividerModule} from 'primeng/divider'; // For p-divider
-import {AuthService} from '../../../services/auth.service'; // <--- Import AuthService
+import {AuthService} from '../../../services/auth.service';
+import {TooltipModule} from "primeng/tooltip"; // <--- Import AuthService
 
 @Component({
   selector: 'app-washer-management',
@@ -31,7 +32,8 @@ import {AuthService} from '../../../services/auth.service'; // <--- Import AuthS
     TagModule,
     ConfirmDialogModule,
     DialogModule,
-    DividerModule
+    DividerModule,
+    TooltipModule
   ],
   templateUrl: './washer-management.component.html',
   styleUrl: './washer-management.component.css',
@@ -93,11 +95,13 @@ export class WasherManagementComponent implements OnInit {
             a.name.localeCompare(b.name)
           );
           console.log('All Washers:', this.washers);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Washers loaded successfully.'
-          });
+          // TODO: remove
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Washers loaded successfully.',
+          //   life: 1500
+          // });
         } else {
           this.washers = [];
           this.messageService.add({
