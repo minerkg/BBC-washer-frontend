@@ -29,7 +29,7 @@
           </div>
 
           <div class="flex justify-content-end gap-2 mt-5">
-            <p-button label="Cancel" [routerLink]="['/']" i icon="pi pi-times" styleClass="p-button-danger"/>
+            <p-button label="Cancel" (click)="cancel()" i icon="pi pi-times" styleClass="p-button-danger"/>
             <p-button label="Register" (onClick)="registerUser()" icon="pi pi-user-plus"/>
           </div>
         </div>

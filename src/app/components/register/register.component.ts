@@ -1,5 +1,4 @@
-// src/app/components/register/register.component.ts
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
@@ -9,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router, RouterModule } from '@angular/router';
-
+import { RouteTrackingService } from '../../services/route-tracking.service';
 
 @Component({
   selector: 'app-register',
@@ -35,11 +34,16 @@ export class RegisterComponent {
   email!: string;
   phone_nr!: string;
 
+  @Input() inDialog: boolean = false;
+  @Output() cancelDialog = new EventEmitter<void>();
+
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private routeTracker: RouteTrackingService
+  ) {
+  }
 
   goToLogin() {
     this.router.navigate(['/login']);
@@ -59,7 +63,11 @@ export class RegisterComponent {
     this.authService.register(registrationData).subscribe({
       next: (response: any) => {
         console.log('Registration successful:', response);
-        this.messageService.add({severity:'success', summary:'Success', detail:'Registration Successful! You can now log in.'});
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Registration Successful! You can now log in.'
+        });
         this.resetForm();
       },
       error: (error: any) => {
@@ -70,7 +78,7 @@ export class RegisterComponent {
         } else if (error.error && error.error.message) {
           errorMessage = error.error.message;
         }
-        this.messageService.add({severity:'error', summary:'Error', detail: errorMessage});
+        this.messageService.add({severity: 'error', summary: 'Error', detail: errorMessage});
       }
     });
   }
@@ -82,5 +90,15 @@ export class RegisterComponent {
     this.last_name = '';
     this.email = '';
     this.phone_nr = '';
+  }
+
+  cancel() {
+    if (this.inDialog) {
+      this.cancelDialog.emit();
+    } else {
+      const fallbackRoute = '/dashboard';
+      const target = this.routeTracker.lastRoute || fallbackRoute;
+      this.router.navigateByUrl(target);
+    }
   }
 }
