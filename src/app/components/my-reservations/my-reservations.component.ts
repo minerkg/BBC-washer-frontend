@@ -1,17 +1,20 @@
 // src/app/components/my-reservations/my-reservations.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReservationService } from '../../services/reservation.service'; // Import the new service
-import { TagModule } from 'primeng/tag'; // For p-tag
-import { TableModule } from 'primeng/table'; // For p-table
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { MessageService, ConfirmationService } from 'primeng/api'; // Import ConfirmationService
-import { ConfirmDialogModule } from 'primeng/confirmdialog'; // Import ConfirmDialogModule
-import { RouterModule } from '@angular/router'; // If needed for links
-import { ProfileService } from '../../services/profile.service';
-import { User } from '../../models/user.model';
-import { TooltipModule } from 'primeng/tooltip';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ReservationService} from '../../services/reservation.service'; // Import the new service
+import {TagModule} from 'primeng/tag'; // For p-tag
+import {TableModule} from 'primeng/table'; // For p-table
+import {ButtonModule} from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
+import {MessageService, ConfirmationService} from 'primeng/api'; // Import ConfirmationService
+import {ConfirmDialogModule} from 'primeng/confirmdialog'; // Import ConfirmDialogModule
+import {RouterModule} from '@angular/router'; // If needed for links
+import {ProfileService} from '../../services/profile.service';
+import {User} from '../../models/user.model';
+import {TooltipModule} from 'primeng/tooltip';
+import {CardModule} from "primeng/card";
+import {InputTextModule} from "primeng/inputtext";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-my-reservations',
@@ -24,7 +27,11 @@ import { TooltipModule } from 'primeng/tooltip';
     ToastModule,
     ConfirmDialogModule, // Add ConfirmDialogModule
     RouterModule,
-    TooltipModule
+    TooltipModule,
+    CardModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './my-reservations.component.html',
   styleUrl: './my-reservations.component.css',
@@ -39,11 +46,12 @@ export class MyReservationsComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private profileService: ProfileService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-   const user: User =  JSON.parse(this.profileService.getProfileFromLocalStorage()!);
-    this.currentUserId =user.id;
+    const user: User = JSON.parse(this.profileService.getProfileFromLocalStorage()!);
+    this.currentUserId = user.id;
     this.loadMyReservations();
   }
 
@@ -57,22 +65,27 @@ export class MyReservationsComponent implements OnInit {
           // this.messageService.add({severity:'success', summary:'Success', detail:'Your reservations loaded successfully.'});
         } else {
           this.reservations = [];
-          this.messageService.add({severity:'info', summary:'Info', detail:'You have no reservations.'});
+          this.messageService.add({severity: 'info', summary: 'Info', detail: 'You have no reservations.'});
         }
       },
       error: (error) => {
-        this.messageService.add({severity:'error', summary:'Error', detail:'Failed to load your reservations.'});
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to load your reservations.'});
       }
     });
   }
 
   getSeverity(status: string): 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'contrast' {
     switch (status) {
-      case 'CONFIRMED': return 'success';
-      case 'CANCELLED': return 'danger';
-      case 'PENDING': return 'warning';
-      case 'COMPLETED': return 'info';
-      default: return 'secondary';
+      case 'CONFIRMED':
+        return 'success';
+      case 'CANCELLED':
+        return 'danger';
+      case 'PENDING':
+        return 'warning';
+      case 'COMPLETED':
+        return 'info';
+      default:
+        return 'secondary';
     }
   }
 
@@ -85,7 +98,7 @@ export class MyReservationsComponent implements OnInit {
         this.cancelReservation(reservationId);
       },
       reject: () => {
-        this.messageService.add({severity:'info', summary:'Cancelled', detail:'You have cancelled the operation.'});
+        this.messageService.add({severity: 'info', summary: 'Cancelled', detail: 'You have cancelled the operation.'});
       }
     });
   }
@@ -93,7 +106,11 @@ export class MyReservationsComponent implements OnInit {
   cancelReservation(reservationId: number): void {
     this.reservationService.cancelReservation(reservationId).subscribe({
       next: (response) => {
-        this.messageService.add({severity:'success', summary:'Success', detail: response.body || 'Reservation cancelled successfully!'});
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.body || 'Reservation cancelled successfully!'
+        });
         console.log('Reservation cancelled:', response);
         this.loadMyReservations(); // Reload reservations to update status
       },
@@ -105,8 +122,26 @@ export class MyReservationsComponent implements OnInit {
         } else if (error.error && error.error.message) {
           errorMessage = error.error.message;
         }
-        this.messageService.add({severity:'error', summary:'Error', detail: errorMessage});
+        this.messageService.add({severity: 'error', summary: 'Error', detail: errorMessage});
       }
     });
+  }
+
+  reservationSearchQuery: string = '';
+
+  get filteredReservations() {
+    if (!this.reservationSearchQuery) {
+      return this.reservations;
+    }
+
+    const query = this.reservationSearchQuery.toLowerCase();
+
+    return this.reservations.filter(reservation =>
+      reservation.bookableUnit?.washer?.name?.toLowerCase().includes(query) ||
+      reservation.bookableUnit?.washer?.capacity?.toLowerCase().includes(query) ||
+      reservation.bookableUnit?.timeSlot?.timeInterval?.date?.includes(query) ||
+      reservation.bookableUnit?.timeSlot?.timeInterval?.startTime?.includes(query) ||
+      reservation.bookableUnit?.timeSlot?.timeInterval?.endTime?.includes(query)
+    );
   }
 }

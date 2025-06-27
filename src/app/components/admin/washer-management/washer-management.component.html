@@ -1,9 +1,11 @@
 <div class="p-grid p-justify-center p-align-center p-mt-5">
   <div class="p-col-12 p-md-8 p-lg-6">
+
     <p-card styleClass="p-shadow-24">
+
       <div class="p-fluid p-mb-4">
         <div *ngIf="washers && washers.length > 0; else noWashers">
-          <!-- Search Bar -->
+
           <div class="p-d-flex p-ai-center p-mb-3">
             <span class="p-input-icon-left" [style]="{ 'width': '250px', 'margin-bottom': '0.5rem' }">
               <i class="pi pi-search"></i>
@@ -17,7 +19,6 @@
             </span>
           </div>
 
-          <!-- Washer Table -->
           <p-table
             [value]="filteredWashers"
             [paginator]="true"
