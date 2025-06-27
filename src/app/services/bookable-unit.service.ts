@@ -1,9 +1,10 @@
 // src/app/services/bookable-unit.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import {environment} from "../../environments/environment"; // Ensure this exact path!
+import { BookableUnitDTO } from '../models/dtos/bookableUnit.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,17 @@ export class BookableUnitService {
       { headers }
     );
   }
+
+  
+ getBookableUnitsByDay(localDate: string): Observable<any>{
+    const headers = this.authService.getAuthHeaders();
+    const params: HttpParams = new HttpParams().set('localDate',localDate);
+    
+    return this.http.get<BookableUnitDTO[]>(`${this.API_BASE_URL}/bookable-units/by-date`, {
+      headers,
+      params
+    });  
+  }
+
+
 }

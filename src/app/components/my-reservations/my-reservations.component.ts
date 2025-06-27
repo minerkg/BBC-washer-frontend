@@ -58,7 +58,6 @@ export class MyReservationsComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading reservations:', error);
         this.messageService.add({severity:'error', summary:'Error', detail:'Failed to load your reservations.'});
       }
     });
@@ -70,7 +69,7 @@ export class MyReservationsComponent implements OnInit {
       case 'CANCELLED': return 'danger';
       case 'PENDING': return 'warning';
       case 'COMPLETED': return 'info';
-      default: return 'secondary'; // Or choose another default like 'contrast'
+      default: return 'secondary';
     }
   }
 

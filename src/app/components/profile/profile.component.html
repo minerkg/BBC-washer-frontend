@@ -6,13 +6,13 @@
       <ng-template pTemplate="title" *ngIf="user">
         <div class="flex align-items-center gap-3">
           <p-avatar
-            [label]="(user?.first_name?.substring(0,1) || '') + (user?.last_name?.substring(0,1) || '')"
+            [label]="(user.first_name.substring(0,1) || '') + (user.last_name.substring(0,1) || '')"
             styleClass="p-mr-2"
             size="xlarge"
             shape="circle"></p-avatar>
           <div class="flex flex-column">
-            <span class="font-bold">{{ user?.first_name }} {{ user?.last_name }}</span>
-            <span class="text-sm text-gray-500">{{ user?.username }}</span>
+            <span class="font-bold">{{ user.first_name }} {{ user.last_name }}</span>
+            <span class="text-sm text-gray-500">{{ user.username }}</span>
           </div>
         </div>
       </ng-template>
