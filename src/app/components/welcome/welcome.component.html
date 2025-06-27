@@ -1,0 +1,53 @@
+<div class="dashboard-wrapper">
+  <div class="welcome-card">
+    <h1>Welcome</h1>
+    <p>
+      Kick back and relax—we’ve got you covered! Just a few notes...
+    </p>
+
+    <div class="info-rules">
+      <p>
+        <i class="pi pi-calendar-clock" style="margin-right: 0.5rem;"></i>
+        Arrive at the time of the booking, and not after :).
+      </p>
+      <p>
+        <i class="pi pi-calendar" style="margin-right: 0.5rem;"></i>
+        Each reservation covers a 2-hour time slot.
+      </p>
+      <p>
+        <i class="pi pi-calendar-plus" style="margin-right: 0.5rem;"></i>
+        If you require more time, please book multiple consecutive slots.
+      </p>
+    </div>
+
+    <div class="laundry-rules">
+      <p>
+        <i class="pi pi-shopping-bag" style="margin-right: 0.5rem;"></i>
+        Bring your laundry in a washing bag.
+      </p>
+      <p>
+        <i class="pi pi-shopping-cart" style="margin-right: 0.5rem;"></i>
+        A laundry bag can be purchased on site.
+      </p>
+      <p>
+        <i class="pi pi-times-circle" style="margin-right: 0.5rem;"></i>
+        Sort your laundry at home, don't mix colors.
+      </p>
+    </div>
+
+    <div class="payment-rules">
+      <p>
+        <i class="pi pi-money-bill" style="margin-right: 0.5rem;"></i>
+        All payments are made in cash.
+      </p>
+    </div>
+
+    <p-button label="Book Now" routerLink="/washers" styleClass="p-button-primary mt-3"></p-button>
+  </div>
+
+  <div class="dashboard-image">
+    <img src="assets/images/dashboard.png" alt="Relaxed Student in Laundry"/>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
