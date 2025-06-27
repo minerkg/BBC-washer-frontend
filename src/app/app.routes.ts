@@ -18,7 +18,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {
     path: 'dashboard', component: DashboardComponent, children: [
-      { path: 'welcome', component: WelcomeComponent },
+      {path: 'welcome', component: WelcomeComponent },
       {path: 'washers', component: BookableUnitsComponent},
       {path: 'my-profile', component: ProfileComponent},
       {path: 'my-reservations', component: MyReservationsComponent},

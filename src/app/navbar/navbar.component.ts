@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router'; // Import RouterModule for routerLink
 import { AuthService } from '../services/auth.service';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
     RouterModule, // Added RouterModule
     CommonModule,
+    NgOptimizedImage,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

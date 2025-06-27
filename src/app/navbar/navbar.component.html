@@ -2,7 +2,9 @@
   style="background-color: #45808D; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
   <!-- Left side: Logo & App name -->
   <div style="display: flex; align-items: center;">
-    <img src="assets/images/bbc_logo.png" alt="BBC Logo" style="height: 80px; margin-right: 16px;">
+    <a [routerLink]="['/dashboard/welcome']" style="display: inline-block;">
+      <img src="assets/images/bbc_logo.png" alt="BBC Logo" style="height: 80px; margin-right: 16px; cursor: pointer;">
+    </a>
     <div>
       <h1 style="margin: 0;">Broke But Clean</h1>
       <div style="font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">
