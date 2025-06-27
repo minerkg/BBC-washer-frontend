@@ -68,16 +68,24 @@ export class AuthService {
   }
 
   getBasicAuthHeader(): string | null {
-     return localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY)
+    if (isPlatformBrowser(this.platformId)){
+      return localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY);
+    }else return null
+    
 
   }
 
   getAuthHeaders(contentTypeJson: boolean = true): HttpHeaders {
-    const basicAuth = localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY);
-    console.log(basicAuth);
-    if (!basicAuth) {
-      throw new Error('No Basic Auth token available.');
+    var basicAuth = null;
+   
+    if (isPlatformBrowser(this.platformId)){
+     basicAuth = localStorage.getItem(this.BASIC_AUTH_STORAGE_KEY);
     }
+    
+
+    // if (!basicAuth) {
+    //   throw new Error('No Basic Auth token available.');
+    // }
 
     const headersConfig: { [key: string]: string } = {
       'Authorization': `Basic ${basicAuth}`

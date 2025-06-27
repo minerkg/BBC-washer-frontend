@@ -1,22 +1,20 @@
-// src/app/components/bookable-units/bookable-units.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // For ngIf, ngFor, date pipe
-import { BookableUnitService } from '../../services/bookable-unit.service'; // Import the new service
+import { CommonModule } from '@angular/common';
+import { BookableUnitService } from '../../services/bookable-unit.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MenuItem, MessageService } from 'primeng/api';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // CORRECTED IMPORT PATH
 import { CalendarModule } from 'primeng/calendar';
 import { StepsModule } from 'primeng/steps';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { ReservationService } from '../../services/reservation.service';
-import { WasherService } from '../../services/washer.service';
-import { Washer } from '../../models/dtos/washer.mode';
 import { BookableUnitDTO } from '../../models/dtos/bookableUnit.model';
-
+import { ProfileService } from '../../services/profile.service';
+import { User } from '../../models/user.model';
+import { ReservationService } from '../../services/reservation.service';
+import { TimeSlot } from '../../models/dtos/timeSlot.model';
 
 @Component({
   selector: 'app-bookable-units',
@@ -27,101 +25,140 @@ import { BookableUnitDTO } from '../../models/dtos/bookableUnit.model';
     ButtonModule,
     ToastModule,
     RouterModule,
-    CalendarModule,FormsModule,DropdownModule,StepsModule
-
+    CalendarModule,
+    FormsModule,
+    DropdownModule,
+    StepsModule,
   ],
   templateUrl: './bookable-units.component.html',
   styleUrl: './bookable-units.component.css',
-  providers: [MessageService] // Provide MessageService
+  providers: [MessageService],
 })
 export class BookableUnitsComponent implements OnInit {
   steps: MenuItem[] = [
     { label: 'Select Date' },
-    { label: 'Select Time Slot' }
+    { label: 'Select Time Slot' },
+    { label: 'Summary' },
   ];
   activeStep: number = 0;
-
+  userId: number | undefined;
   bookableUnits: BookableUnitDTO[] = [];
   selectedDate: Date | null = null;
   minDate: Date = new Date(); // Today
   maxDate: Date = new Date(new Date().setDate(new Date().getDate() + 7)); // One week from now
 
-  availableWashers: Washer[] = [];
-  selectedWasher: number | null = null;
+  availableTimeSlots: {
+    label: string; // "08:00 - 08:30"
+    value: number; // bookableUnit.id
+  }[] = [];
+  userLoggedIn: User | null;
 
-  availableTimeSlots: { startTime: string; endTime: string; timeRange: string }[] = [];
-  selectedTimeSlot: string | null = null;
-
+  selectedTimeSlot: TimeSlot | undefined;
+  selectedBookableUnitId: number | null = null;
   noDataMessage: string | null = null;
 
   constructor(
     private bookableUnitService: BookableUnitService,
-    private messageService: MessageService,
-    private authService: AuthService, // AuthService is injected here
+    private profileService: ProfileService,
     private reservationService: ReservationService,
-    private washerService: WasherService
+    private messageService: MessageService
   ) {
-
-   }
-
-  ngOnInit(): void {
-    // this.loadAvailableBookableUnits();
-    this.loadBookableUnits();
+    this.userLoggedIn = JSON.parse(
+      this.profileService.getProfileFromLocalStorage()!
+    );
+    this.userId = this.userLoggedIn?.id;
   }
 
-  loadBookableUnits(): void{
-  
-    this.washerService.getAllBookableUnits().subscribe((data) => {
-      
-      this.bookableUnits=data.body;
-      console.log(this.bookableUnits);
-    })
-
+  ngOnInit(): void {
+   
   }
 
   onDateSelect(): void {
     if (this.selectedDate) {
-      const selectedDateStr = this.selectedDate.toISOString().split('T')[0];
-      console.log(selectedDateStr);
+      const selectedDateStr = this.selectedDate.toLocaleDateString('en-CA');
       this.noDataMessage = null;
-      this.activeStep = 1;
-      this.selectedWasher = null;
       this.availableTimeSlots = [];
-      this.selectedTimeSlot = null;
+
+      this.bookableUnitService.getBookableUnitsByDay(selectedDateStr).subscribe(
+        (data) => {
+          this.bookableUnits = data.body;
+          console.log(data);
+          this.activeStep = 1;
+          this.bookableUnits.sort((a, b) => {
+            const timeA = a.timeSlot.timeInterval.startTime;
+            const timeB = b.timeSlot.timeInterval.startTime;
+            return timeA.localeCompare(timeB); // Formatul e HH:mm deci merge corect
+          });
+
+          // Construim dropdownul cu label și value
+          this.availableTimeSlots = this.bookableUnits.map((unit) => {
+            const interval = unit.timeSlot.timeInterval;
+            return {
+              label: `${interval.startTime} - ${interval.endTime}`,
+              value: unit.id,
+            };
+          });
+
+          if (this.availableTimeSlots.length === 0) {
+            this.noDataMessage = 'No interval available';
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Info',
+              detail: 'No interval available',
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.noDataMessage = 'Error fetching data';
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Error',
+            detail: 'Sorry there is an error, come back later',
+          });
+        }
+      );
     }
   }
 
- 
-
-  onTimeSlotSelect(): void {
-    // No additional logic needed; selectedTimeSlot is set
-  }
-
-
-  getWasherById(id: number): Washer | undefined {
-    return this.availableWashers.find(w => w.id === id);
-  }
-
-  
   bookUnit(): void {
-   
+    this.selectedTimeSlot = this.bookableUnits.find(
+      (bu) => bu.id == this.selectedBookableUnitId
+    )?.timeSlot;
+    this.reservationService
+      .bookReservation(this.selectedBookableUnitId!, this.userId!)
+      .subscribe(
+        (data) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Booking succesfull',
+            detail: 'Your booking was created',
+            life: 5000,
+          });
+
+          this.activeStep = 2;
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'warning',
+            summary: 'Info',
+            detail: 'Please chose another time',
+            life: 5000,
+          });
+        }
+      );
   }
 
-
-
+  backToBooking() {
+    this.activeStep = 0;
+    this.resetForm();
+  }
 
   resetForm(): void {
     this.selectedDate = null;
-    this.selectedWasher = null;
-    this.selectedTimeSlot = null;
-    this.availableWashers = [];
+    this.selectedTimeSlot = undefined;
     this.availableTimeSlots = [];
     this.activeStep = 0;
     this.noDataMessage = null;
   }
-
-
-
-
-
 }

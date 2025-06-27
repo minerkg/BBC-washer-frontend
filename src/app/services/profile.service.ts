@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs';
 import {User} from '../models/user.model';
 import {environment} from "../../environments/environment";
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,17 @@ export class ProfileService {
   private readonly USER_PROFILE_STORAGE_KEY = 'profile';
   private readonly BASIC_AUTH_STORAGE_KEY = 'basicAuthHeader';
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient,
+     private authService: AuthService,
+     @Inject(PLATFORM_ID) private platformId: Object) {
   }
 
 
-  getProfileFromLocalStorage() {
-    return localStorage.getItem('profile');
+  getProfileFromLocalStorage(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('profile');
+    }
+    return null;
   }
 
   getProfileFromBackend(): Observable<User> {
