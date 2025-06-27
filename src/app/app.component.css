@@ -4,3 +4,11 @@
     right: 1rem;
     z-index: 1000;
 }
+
+::ng-deep .tight-card-small-padding .p-card,
+::ng-deep .tight-card-small-padding .p-card-body,
+::ng-deep .tight-card-small-padding .p-card-content {
+  padding: 0.25rem;
+  margin: 0;
+  width: fit-content;
+}

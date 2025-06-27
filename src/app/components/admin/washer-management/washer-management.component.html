@@ -95,7 +95,6 @@
 <p-toast></p-toast>
 <p-confirmDialog [style]="{ width: '60vw' }" [baseZIndex]="1000"></p-confirmDialog>
 
-<!-- Edit Washer Dialog -->
 <p-dialog
   header="Edit Washer"
   [(visible)]="displayEditDialog"
@@ -104,19 +103,19 @@
   [draggable]="false"
   [resizable]="false"
 >
-  <div class="p-fluid mb-5">
+  <div class="p-fluid">
     <div class="p-field">
       <label for="editWasherName">Name</label>
       <input id="editWasherName" type="text" pInputText [(ngModel)]="selectedWasher.name"/>
     </div>
-    <div class="p-field p-mt-3">
+    <div class="p-field mt-4">
       <label for="editWasherCapacity">Capacity (kg)</label>
       <input id="editWasherCapacity" type="number" pInputText [(ngModel)]="selectedWasher.capacity"/>
     </div>
-    <div class="p-field p-mt-3 mb-4">
+    <div class="p-field mt-4">
       <label for="editWasherStatus">Status</label>
       <p-dropdown
-        class="mb-3"
+        class="mt-4"
         id="editWasherStatus"
         [options]="washerStatusesForEdit"
         [(ngModel)]="selectedWasher.status"
@@ -135,9 +134,8 @@
   </ng-template>
 </p-dialog>
 
-<!-- Add Washer Dialog -->
 <p-dialog
-  header="Add New Washer"
+  header="Add Washer"
   [(visible)]="displayAddDialog"
   [modal]="true"
   [style]="{ width: '40vw' }"
@@ -150,11 +148,11 @@
       <label for="washerName">Name</label>
       <input id="washerName" type="text" pInputText [(ngModel)]="newWasher.name" required/>
     </div>
-    <div class="p-field p-mt-3">
+    <div class="p-field mt-4">
       <label for="washerCapacity">Capacity (kg)</label>
       <input id="washerCapacity" type="number" pInputText [(ngModel)]="newWasher.capacity" required/>
     </div>
-    <div class="p-field p-mt-3">
+    <div class="p-field mt-4">
       <label for="washerStatus">Status</label>
       <p-dropdown
         id="washerStatus"

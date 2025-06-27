@@ -26,21 +26,15 @@ export class NavbarComponent implements OnInit{
       private authService: AuthService // Inject AuthService
     ) {}
 
-
   ngOnInit(): void {
     this.isAdmin = this.authService.hasRole('ADMIN');
     this.isEmployee = this.authService.hasRole('EMPLOYEE');
     this.isLogedIn = this.authService.isAuthenticated();
   }
 
-  
   logout() {
     this.authService.logout();
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
-  
-
-
-
 }

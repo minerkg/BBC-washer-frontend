@@ -1,0 +1,17 @@
+.landing-background {
+  background-image: url('/assets/images/laundry_room.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+.landing-card-position {
+  position: absolute;
+  top: 36%;
+  right: 11%;
+  transform-origin: top left;
+}
+

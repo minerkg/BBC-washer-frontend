@@ -1,18 +1,19 @@
 <div class="login-background">
-  <div class="login-card-position">
-    <p-card header="Login to Your Account" styleClass="p-shadow-24" >
+  <div class="flex justify-content-center align-items-center min-h-screen">
+    <p-card header="Sign-In" styleClass="tight-card-small-padding">
       <div class="p-fluid">
         <div class="field">
           <label for="username" class="text-color">Username</label>
-          <input id="username" type="text" pInputText [(ngModel)]="username" />
+          <input id="username" type="text" pInputText [(ngModel)]="username"/>
         </div>
         <div class="field mt-4">
           <label for="password" class="text-color">Password</label>
-          <input id="password" type="password" pInputText [(ngModel)]="password" />
+          <input id="password" type="password" pInputText [(ngModel)]="password"/>
         </div>
         <div class="flex justify-content-end gap-2 mt-5">
-          <p-button label="Sign-In" (onClick)="logIn()" icon="pi pi-sign-in" />
-          <p-button label="Register" [routerLink]="['/register']" icon="pi pi-user-plus" styleClass="p-button-secondary" />
+          <p-button label="Cancel" [routerLink]="['/']" i icon="pi pi-times" styleClass="p-button-danger"/>
+          <p-button label="Sign-In" (onClick)="logIn()" icon="pi pi-sign-in"/>
+
         </div>
       </div>
     </p-card>

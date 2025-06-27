@@ -32,20 +32,15 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
+
     if (isPlatformBrowser(this.platformId)) {
       this.isAdmin = this.authService.hasRole('ADMIN');
-  
+
       const user2 = localStorage.getItem('profile');
       if (user2) {
         this.user = JSON.parse(user2);
       }
     }
- 
-  }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

@@ -5,7 +5,6 @@ import { Observable, BehaviorSubject, tap, switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import {environment} from "../../environments/environment";
-import { Router } from 'express';
 
 @Injectable({
   providedIn: 'root'
