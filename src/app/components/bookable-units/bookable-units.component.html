@@ -53,5 +53,14 @@
       </div>
     </div>
 
+    <div *ngIf="activeStep < 2" class="w-full text-center mt-5">
+      <p-button
+        label="Restart Booking"
+        icon="pi pi-refresh"
+        styleClass="p-button-secondary"
+        (onClick)="restartBooking()"
+      ></p-button>
+    </div>
+
   </div>
 </p-card>

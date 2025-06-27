@@ -70,7 +70,7 @@ export class BookableUnitsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
   }
 
   onDateSelect(): void {
@@ -161,4 +161,14 @@ export class BookableUnitsComponent implements OnInit {
     this.activeStep = 0;
     this.noDataMessage = null;
   }
+
+  restartBooking(): void {
+    this.activeStep = 0;
+    this.selectedDate = null;
+    this.selectedBookableUnitId = null;
+    this.selectedTimeSlot = undefined;
+    this.noDataMessage = '';
+  }
+
+
 }
