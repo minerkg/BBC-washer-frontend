@@ -1,60 +1,57 @@
-<div class="flex flex-column align-items-center justify-content-center p-5">
-  <h2>Book a Washing Machine</h2>
+<p-card header="Book a Washing Machine" styleClass="w-full md:w-8 mx-auto mt-5">
+  <div class="flex flex-column align-items-center justify-content-center p-4">
 
-  <!-- Steps Indicator -->
-  <p-steps [model]="steps" [(activeIndex)]="activeStep" [readonly]="false"></p-steps>
+    <p-steps
+      [model]="steps"
+      [(activeIndex)]="activeStep"
+      [readonly]="false"
+      class="custom-steps-wrapper">
+    </p-steps>
+
     <p-toast></p-toast>
 
-    <div *ngIf="activeStep === 0">
-      <h2>Select Date</h2>
-      <p-calendar 
-      [(ngModel)]="selectedDate" 
-      [minDate]="minDate" 
-      [maxDate]="maxDate" 
-      [showIcon]="true"
-      (onSelect)="onDateSelect()"></p-calendar>
-      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+    <div *ngIf="activeStep === 0" class="w-full text-center" style="margin-top: 2rem;">
+      <h3 class="mb-3 text-primary">Step 1: Select a Date</h3>
+      <p-calendar
+        [(ngModel)]="selectedDate"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [showIcon]="true"
+        (onSelect)="onDateSelect()">
+      </p-calendar>
+      <p *ngIf="noDataMessage" class="mt-3 text-red-500">{{ noDataMessage }}</p>
     </div>
 
-    <div *ngIf="activeStep === 1">
-      <h2>Selectează un interval orar</h2>
-      <p-dropdown 
-        [(ngModel)]="selectedBookableUnitId" 
-        [options]="availableTimeSlots" 
-        placeholder="Alege un interval orar">
+    <div *ngIf="activeStep === 1" class="w-full text-center" style="margin-top: 2.5rem;">
+      <h3 class="mb-3 text-primary">Step 2: Select a Time Slot</h3>
+      <p-dropdown
+        [(ngModel)]="selectedBookableUnitId"
+        [options]="availableTimeSlots"
+        placeholder="Choose a time slot"
+        class="w-20rem mb-3">
       </p-dropdown>
 
-      <button 
-        pButton 
-        label="Programează" 
-        (click)="bookUnit()" 
-        [disabled]="!selectedBookableUnitId">
-      </button>
-      <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+      <p-button
+        label="Book Now"
+        (onClick)="bookUnit()"
+        [disabled]="!selectedBookableUnitId"
+        styleClass="p-button-success">
+      </p-button>
+
+      <p *ngIf="noDataMessage" class="mt-3 text-red-500">{{ noDataMessage }}</p>
     </div>
 
-    <div *ngIf="activeStep === 2">
-      <div class="mt-4 p-3 border border-gray-300 rounded shadow-sm bg-light">
-          <h3>Booking Summary</h3>
-          <p><strong>Date:</strong> {{ selectedDate | date: 'fullDate' }}</p>
-          <p><strong>Time:</strong> {{ selectedTimeSlot?.timeInterval?.startTime }}</p>
-      
-          <button 
-            pButton
-            class="btn btn-primary mt-3" 
-            (click)="backToBooking()">
-            Back
-          </button>
-        </div>
+    <div *ngIf="activeStep === 2" class="w-full text-center" style="margin-top: 3rem;">
+      <h3 class="text-primary mb-3">Step 3: Booking Summary</h3>
+      <div class="p-3 border-1 surface-border border-round shadow-2 bg-gray-50">
+        <p><strong>Date:</strong> {{ selectedDate | date: 'fullDate' }}</p>
+        <p><strong>Time:</strong> {{ selectedTimeSlot?.timeInterval?.startTime }}</p>
+        <p-button
+          label="Book another Washing Machine"
+          (onClick)="backToBooking()">
+        </p-button>
+      </div>
     </div>
 
-  <!-- No Data Message -->
-  <div *ngIf="noDataMessage" class="p-message p-message-info mt-5" style="display: block;">
-    <div class="p-message-wrapper">
-      <span class="p-message-icon pi pi-info-circle"></span>
-      <span class="p-message-text">{{ noDataMessage }}</span>
-    </div>
   </div>
-</div>
-<p-toast></p-toast>
-
+</p-card>

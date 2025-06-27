@@ -3,12 +3,33 @@
     min-height: 100vh;
     background-color: #f4f7fa;
   }
-  
+
   .p-steps {
     max-width: 600px;
     margin-bottom: 2rem;
   }
-  
+
   .p-button {
     border-radius: 6px;
   }
+
+::ng-deep .p-steps .p-steps-item.p-highlight .p-steps-number {
+  background-color: #f26522;
+  border-color: #f26522;
+  color: white;
+}
+
+::ng-deep .p-steps .p-steps-item.p-highlight .p-steps-title {
+  font-weight: bold;
+  color: #f26522;
+}
+
+::ng-deep .p-steps .p-steps-item:before {
+  border-top: 2px solid #f26522;
+}
+
+.custom-steps-wrapper {
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  width: 100%;
+}
