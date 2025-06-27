@@ -93,11 +93,13 @@ export class WasherManagementComponent implements OnInit {
             a.name.localeCompare(b.name)
           );
           console.log('All Washers:', this.washers);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Washers loaded successfully.'
-          });
+          // TODO: remove
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Washers loaded successfully.',
+          //   life: 1500
+          // });
         } else {
           this.washers = [];
           this.messageService.add({
