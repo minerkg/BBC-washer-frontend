@@ -13,8 +13,7 @@
   max-width: 600px;
   background: white;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 6px;
 }
 
 .dashboard-image {
@@ -32,6 +31,7 @@
 .info-rules {
   margin-top: 1rem;
   padding: 1rem;
+  margin-right: 0.5rem;
   border-radius: 8px;
   color: white;
   background-color: #45808D;
@@ -40,6 +40,7 @@
 .laundry-rules {
   margin-top: 1rem;
   padding: 1rem;
+  margin-right: 0.5rem;
   border-radius: 8px;
   color: dimgray;
   background-color: #F9E4BC;
@@ -48,6 +49,7 @@
 .payment-rules {
   margin-top: 1rem;
   padding: 1rem;
+  margin-right: 0.5rem;
   border-radius: 8px;
   color: white;
   background-color: #f26522;
