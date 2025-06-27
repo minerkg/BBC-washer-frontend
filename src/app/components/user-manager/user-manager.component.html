@@ -67,15 +67,7 @@
     (onClick)="showRegisterDialog = true"
   ></p-button>
 
-  <p-dialog
-    header="Register New User"
-    [(visible)]="showRegisterDialog"
-    [modal]="true"
-    [style]="{ width: '40vw' }"
-    [draggable]="false"
-    [resizable]="false"
-    (onHide)="onRegisterDialogHide()"
-  >
+  <p-dialog [(visible)]="showRegisterDialog" [modal]="true" [draggable]="false" (onHide)="onRegisterDialogHide()">
     <app-register
       [inDialog]="true"
       (cancelDialog)="showRegisterDialog = false"
