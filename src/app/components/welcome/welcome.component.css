@@ -1,0 +1,56 @@
+.dashboard-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.welcome-card {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  background: white;
+  padding: 2rem;
+  border-radius: 6px;
+}
+
+.dashboard-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: right;
+}
+
+.dashboard-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.info-rules {
+  margin-top: 1rem;
+  padding: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 8px;
+  color: white;
+  background-color: #45808D;
+}
+
+.laundry-rules {
+  margin-top: 1rem;
+  padding: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 8px;
+  color: dimgray;
+  background-color: #F9E4BC;
+}
+
+.payment-rules {
+  margin-top: 1rem;
+  padding: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 8px;
+  color: white;
+  background-color: #f26522;
+}

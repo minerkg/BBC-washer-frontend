@@ -53,7 +53,7 @@ export class LoginComponent {
         this.messageService.add({severity:'success', summary:'Success', detail:'Login Successful!'});
         this.username = '';
         this.password = '';
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/welcome']);
       },
       error: (error) => {
         console.error('Login failed callback received:', error); // This should follow a failed request

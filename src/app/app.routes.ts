@@ -10,6 +10,7 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {UserManagerComponent} from './components/admin/user-manager/user-manager.component';
 import {ReservationManagerComponent} from './components/reservation-manager/reservation-manager.component';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
+import {WelcomeComponent} from "./components/welcome/welcome.component";
 
 export const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {
     path: 'dashboard', component: DashboardComponent, children: [
+      { path: 'welcome', component: WelcomeComponent },
       {path: 'washers', component: BookableUnitsComponent},
       {path: 'my-profile', component: ProfileComponent},
       {path: 'my-reservations', component: MyReservationsComponent},
