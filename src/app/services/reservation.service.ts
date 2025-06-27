@@ -1,9 +1,9 @@
 // src/app/services/reservation.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import {environment} from "../../environments/environment"; // To get the auth header
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -17,34 +17,61 @@ export class ReservationService {
   ) { }
 
   /**
-   * Fetches all active reservations for a specific user.
-   * Requires authentication.
+   * Preia toate rezervările pentru un utilizator specific.
+   * Apelează GET /reservation/{userId}
    */
-  getAllReservationsByUser(profileId: number): Observable<any> {
+  getAllReservationsByUser(userId: number): Observable<any> {
     const headers = this.authService.getAuthHeaders();
-    // The backend endpoint is GET /reservation/{userId}
-    return this.http.get(`${this.API_BASE_URL}/reservation/${profileId}`, { headers: headers });
+    return this.http.get(`${this.API_BASE_URL}/reservation/${userId}`, { headers, observe: 'response' });
   }
 
   /**
-   * Cancels a specific reservation by ID.
-   * Requires authentication.
+   * Creează o nouă rezervare.
+   * Apelează POST /reservation
+   */
+  makeReservation(bookableUnitId: number, userId: number): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    const params = new HttpParams()
+      .set('bookableUnitId', bookableUnitId.toString())
+      .set('userId', userId.toString());
+    // MODIFICARE: URL Construit corect
+    return this.http.post(`${this.API_BASE_URL}/reservation`, null, { headers, params, observe: 'response' });
+  }
+
+  /**
+   * Anulează o rezervare existentă.
+   * Apelează DELETE /reservation/{reservationId}
    */
   cancelReservation(reservationId: number): Observable<any> {
     const headers = this.authService.getAuthHeaders();
-    // The backend endpoint is DELETE /reservation/{reservationId}
-    return this.http.delete(`${this.API_BASE_URL}/reservation/${reservationId}`, { headers: headers });
+    return this.http.delete(`${this.API_BASE_URL}/reservation/${reservationId}`, {
+      headers: headers,
+      observe: 'response'
+    });
   }
 
-  getAvailableTimeSlots(washerId: number, date: string): Observable<any> {
+  /**
+   * Preia absolut toate rezervările din sistem (pentru panoul de administrare).
+   * Apelează GET /reservation/admin/all
+   */
+  getAllReservationsForAdmin(): Observable<any> {
     const headers = this.authService.getAuthHeaders();
-    const url = `${this.API_BASE_URL}/reservation/available-slots?washerId=${washerId}&date=${date}`;
-    return this.http.get(url,{headers: headers});
+    return this.http.get(`${this.API_BASE_URL}/reservation/admin/all`, {
+      headers: headers,
+      observe: 'response'
+    });
   }
 
-  makeReservation(washerId: number, date: string, startTime: string, endTime: string): Observable<any> {
-    const headers = this.authService.getAuthHeaders();
-    const url = `${this.API_BASE_URL}/reservation?washerId=${washerId}&date=${date}&startTime=${startTime}&endTime=${endTime}`;
-    return this.http.post(url, {}, { headers });
+  /**
+   * Actualizează statusul unei rezervări specifice.
+   * Apelează PUT /reservation/{reservationId}/status
+   */
+  updateReservationStatus(reservationId: number, status: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders(true);
+    const body = { status: status };
+    return this.http.put(`${this.API_BASE_URL}/reservation/${reservationId}/status`, body, {
+      headers,
+      observe: 'response'
+    });
   }
 }

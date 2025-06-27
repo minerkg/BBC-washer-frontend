@@ -1,1 +1,90 @@
-<p>reservation-manager works!</p>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="1000"></p-confirmDialog>
+
+<div class="p-5" *ngIf="isAllowed; else noAccess">
+  <p-card>
+    <ng-template pTemplate="title">
+      Reservation Manager
+    </ng-template>
+
+    <div class="grid nogutter md:align-items-center mb-4 gap-3">
+      <div class="col-12 md:col-4">
+        <label for="dateFilter" class="font-bold mb-2 block">Filter by Date</label>
+        <p-calendar
+          id="dateFilter"
+          [(ngModel)]="selectedDate"
+          (onSelect)="onDateChange()"
+          styleClass="w-full"
+          dateFormat="yy-mm-dd"
+          [showIcon]="true">
+        </p-calendar>
+      </div>
+      <div class="col-12 md:col-4">
+        <label for="search" class="font-bold mb-2 block">Search</label>
+        <span class="p-input-icon-left w-full">
+            <i class="pi pi-search"></i>
+            <input
+              id="search"
+              type="text"
+              pInputText
+              class="w-full"
+              placeholder="Search by user, washer, status..."
+              [(ngModel)]="searchQuery">
+            </span>
+      </div>
+    </div>
+
+    <p-table
+      [value]="displayedReservations"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [tableStyle]="{'min-width': '60rem'}"
+      responsiveLayout="scroll">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Washer</th>
+          <th>Time Slot</th>
+          <th>Status</th>
+          <th style="width: 15rem">Actions</th> </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-reservation>
+        <tr>
+          <td>#{{ reservation.id }}</td>
+          <td>{{ reservation.user?.username || 'N/A' }}</td>
+          <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
+          <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.startTime }} - {{ reservation.bookableUnit?.timeSlot?.timeInterval?.endTime }}</td>
+          <td>
+            <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
+          </td>
+          <td>
+            <p-dropdown
+              [options]="statusOptions"
+              [ngModel]="reservation.status"
+              placeholder="Change Status"
+              (onChange)="confirmUpdateStatus(reservation, $event.value)"
+              styleClass="w-full">
+            </p-dropdown>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptyMessage">
+        <tr>
+          <td colspan="6" class="text-center">No reservations found for the selected date.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </p-card>
+</div>
+
+<ng-template #noAccess>
+  <div class="p-5">
+    <p-message severity="error" text="You do not have permission to access this content."></p-message>
+  </div>
+</ng-template>
