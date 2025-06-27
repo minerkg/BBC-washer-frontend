@@ -1,6 +1,12 @@
-<p-card header="Book a Washing Machine" styleClass="w-full md:w-8 mx-auto mt-5">
+<p-card styleClass="w-full md:w-8 mx-auto mt-5">
   <div class="flex flex-column align-items-center justify-content-center p-4">
+    <div class="info-booking">
+      <p>
+        <i class="pi pi-lightbulb" ></i>
+        Remember: you are booking a time slot of 2h for a washing machine with the capacity of maximum 6kg.
+      </p>
 
+    </div>
     <p-steps
       [model]="steps"
       [(activeIndex)]="activeStep"

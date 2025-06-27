@@ -33,3 +33,12 @@
   margin: 0 auto 3rem auto;
   width: 100%;
 }
+
+.info-booking {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 8px;
+  color: white;
+  background-color: #f26522;
+}
