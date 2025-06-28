@@ -36,6 +36,8 @@
           <ng-template pTemplate="header">
             <tr>
               <th>Reservation ID</th>
+              <th>Client</th>
+              <th>Email</th>
               <th>Washer Name</th>
               <th>Capacity</th>
               <th>Date</th>
@@ -48,6 +50,8 @@
           <ng-template pTemplate="body" let-reservation>
             <tr>
               <td>{{ reservation.id }}</td>
+              <td>{{ reservation.user?.first_name}} {{ reservation.user?.last_name}}</td>
+              <td>{{reservation.user?.email}}</td>
               <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
               <td>{{ reservation.bookableUnit?.washer?.capacity || 'N/A' }} kg</td>
               <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date }}</td>
