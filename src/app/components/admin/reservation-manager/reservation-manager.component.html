@@ -62,6 +62,14 @@
                 <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
               </td>
               <td>
+                <p-button
+                  icon="pi pi-check-square"
+                  styleClass="p-button-sm p-button-info"
+                  (onClick)="confirmComplete(reservation.id)"
+                  [style]="{ 'margin-right': '0.5rem' }"
+                  pTooltip="Mark as Completed"
+                  tooltipPosition="top"
+                ></p-button>
                 <p-button *ngIf="reservation.status === 'CONFIRMED'"
                           icon="pi pi-power-off"
                           styleClass="p-button-danger p-button-sm"
