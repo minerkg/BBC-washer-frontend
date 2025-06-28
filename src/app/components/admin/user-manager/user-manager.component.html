@@ -60,22 +60,23 @@
                     </ng-template>
                 </p-table>
 
-                <div>
-                    <p-button
-                            label="Add User"
-                            icon="pi pi-user-plus"
-                            (onClick)="showRegisterDialog = true"
-                    ></p-button>
 
-                    <p-dialog [(visible)]="showRegisterDialog" [modal]="true" [draggable]="false"
-                              (onHide)="onRegisterDialogHide()">
-                        <app-register
-                                [inDialog]="true"
-                                (cancelDialog)="showRegisterDialog = false"
-                        ></app-register>
-                    </p-dialog>
-                </div>
             </div>
+          <div>
+            <p-button
+              label="Add User"
+              icon="pi pi-user-plus"
+              (onClick)="showRegisterDialog = true"
+            ></p-button>
+
+            <p-dialog [(visible)]="showRegisterDialog" [modal]="true" [draggable]="false"
+                      (onHide)="onRegisterDialogHide()">
+              <app-register
+                [inDialog]="true"
+                (cancelDialog)="showRegisterDialog = false"
+              ></app-register>
+            </p-dialog>
+          </div>
 
         </p-card>
     </div>

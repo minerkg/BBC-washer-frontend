@@ -41,7 +41,7 @@ export class ReservationService {
   changeReservationStatusToCompleted(reservationId: number): Observable<any> {
     const headers = this.authService.getAuthHeaders();
     // The backend endpoint is PUT /reservation/admin/${reservationId}?reservationStatus=status
-    return this.http.patch(`${this.API_BASE_URL}/reservation/${reservationId}`, null, {
+    return this.http.put(`${this.API_BASE_URL}/reservation/${reservationId}`, null, {
       headers,
       params: {reservationStatus: 'COMPLETED'}
     });

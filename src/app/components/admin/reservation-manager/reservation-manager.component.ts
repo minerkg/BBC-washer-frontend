@@ -246,7 +246,9 @@ export class ReservationManagerComponent implements OnInit {
 
     const query = this.reservationSearchQuery.toLowerCase();
 
-    return this.reservations.filter(reservation =>
+
+
+    return this.reservations =  this.reservations.filter(reservation =>
       reservation.bookableUnit?.washer?.name?.toLowerCase().includes(query) ||
       reservation.bookableUnit?.washer?.capacity?.toLowerCase().includes(query) ||
       reservation.bookableUnit?.timeSlot?.timeInterval?.date?.includes(query) ||
