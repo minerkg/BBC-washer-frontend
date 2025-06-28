@@ -4,7 +4,6 @@
 
             <div *ngIf="isAdmin">
 
-                <!-- Search Bar -->
                 <div class="p-d-flex p-ai-center p-mb-3">
                     <span class="p-input-icon-left" [style]="{ 'width': '250px', 'margin-bottom': '0.5rem' }">
                         <i class="pi pi-search"></i>
@@ -17,7 +16,6 @@
                     </span>
                 </div>
 
-                <!-- User Table -->
                 <p-table
                         [value]="filteredUsers"
                         [paginator]="true"
@@ -62,23 +60,23 @@
                     </ng-template>
                 </p-table>
 
-                <!-- Add User Button Below Table -->
-                <div>
-                    <p-button
-                            label="Add User"
-                            icon="pi pi-user-plus"
-                            (onClick)="showRegisterDialog = true"
-                    ></p-button>
 
-                    <p-dialog [(visible)]="showRegisterDialog" [modal]="true" [draggable]="false"
-                              (onHide)="onRegisterDialogHide()">
-                        <app-register
-                                [inDialog]="true"
-                                (cancelDialog)="showRegisterDialog = false"
-                        ></app-register>
-                    </p-dialog>
-                </div>
             </div>
+          <div>
+            <p-button
+              label="Add User"
+              icon="pi pi-user-plus"
+              (onClick)="showRegisterDialog = true"
+            ></p-button>
+
+            <p-dialog [(visible)]="showRegisterDialog" [modal]="true" [draggable]="false"
+                      (onHide)="onRegisterDialogHide()">
+              <app-register
+                [inDialog]="true"
+                (cancelDialog)="showRegisterDialog = false"
+              ></app-register>
+            </p-dialog>
+          </div>
 
         </p-card>
     </div>

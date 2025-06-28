@@ -129,12 +129,12 @@ export class BookableUnitsComponent implements OnInit {
       .bookReservation(this.selectedBookableUnitId!, this.userId!)
       .subscribe(
         (data) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Booking succesfull',
-            detail: 'Your booking was created',
-            life: 5000,
-          });
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Booking succesfull',
+          //   detail: 'Your booking was created',
+          //   life: 5000,
+          // });
 
           this.activeStep = 2;
         },

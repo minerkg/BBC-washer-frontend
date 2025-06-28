@@ -1,9 +1,9 @@
 // src/app/services/reservation.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
-import { environment } from '../../environments/environment'; // To get the auth header
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {AuthService} from './auth.service';
+import {environment} from '../../environments/environment'; // To get the auth header
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +11,11 @@ import { environment } from '../../environments/environment'; // To get the auth
 export class ReservationService {
   private API_BASE_URL = environment.API_BASE_URL;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+  }
 
   /**
-   * Fetches all active reservations for a specific user.
+   * Fetches all reservations for a specific user.
    * Requires authentication.
    */
   getAllReservationsByUser(profileId: number): Observable<any> {
@@ -26,19 +27,50 @@ export class ReservationService {
   }
 
   /**
+   * Fetches all reservations for all users.
+   * Requires authentication.
+   */
+  getAllReservationsForAdmin(): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    // The backend endpoint is GET /reservation/admin/all
+    return this.http.get(`${this.API_BASE_URL}/reservation/admin/all`, {
+      headers: headers,
+    })
+  }
+
+  changeReservationStatusToCompleted(reservationId: number): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    // The backend endpoint is PUT /reservation/admin/${reservationId}?reservationStatus=status
+    return this.http.put(`${this.API_BASE_URL}/reservation/${reservationId}`, null, {
+      headers,
+      params: {reservationStatus: 'COMPLETED'}
+    });
+  }
+
+  /**
    * Cancels a specific reservation by ID.
    * Requires authentication.
    */
-  cancelReservation(reservationId: number): Observable<any> {
+  cancelReservation(reservationId
+                    :
+                    number
+  ):
+    Observable<any> {
     const headers = this.authService.getAuthHeaders();
     // The backend endpoint is DELETE /reservation/{reservationId}
     return this.http.delete(
       `${this.API_BASE_URL}/reservation/${reservationId}`,
-      { headers: headers }
+      {headers: headers}
     );
   }
 
-  bookReservation(bookableUnitId: number, userID: number): Observable<any> {
+  bookReservation(bookableUnitId
+                  :
+                  number, userID
+                  :
+                  number
+  ):
+    Observable<any> {
     const headers = this.authService.getAuthHeaders(false);
     const params = new HttpParams()
       .set('bookableUnitId', bookableUnitId)
@@ -49,4 +81,6 @@ export class ReservationService {
       params,
     });
   }
+
+
 }

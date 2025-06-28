@@ -4,7 +4,7 @@
     <p-card styleClass="p-shadow-24">
 
       <div class="p-fluid p-mb-4">
-      <div *ngIf="reservations && reservations.length > 0; else noReservations">
+        <div *ngIf="reservations && reservations.length > 0; else noReservations">
 
           <span class="p-input-icon-left" style="width: 250px; margin-bottom: 0.5rem;">
             <i class="pi pi-search"></i>
@@ -36,6 +36,8 @@
           <ng-template pTemplate="header">
             <tr>
               <th>Reservation ID</th>
+              <th>Client</th>
+              <th>Email</th>
               <th>Washer Name</th>
               <th>Capacity</th>
               <th>Date</th>
@@ -48,6 +50,8 @@
           <ng-template pTemplate="body" let-reservation>
             <tr>
               <td>{{ reservation.id }}</td>
+              <td>{{ reservation.user?.first_name}} {{ reservation.user?.last_name}}</td>
+              <td>{{reservation.user?.email}}</td>
               <td>{{ reservation.bookableUnit?.washer?.name || 'N/A' }}</td>
               <td>{{ reservation.bookableUnit?.washer?.capacity || 'N/A' }} kg</td>
               <td>{{ reservation.bookableUnit?.timeSlot?.timeInterval?.date }}</td>
@@ -58,6 +62,14 @@
                 <p-tag [value]="reservation.status" [severity]="getSeverity(reservation.status)"></p-tag>
               </td>
               <td>
+                <p-button *ngIf="reservation.status === 'CONFIRMED'"
+                  icon="pi pi-check-square"
+                  styleClass="p-button-sm p-button-info"
+                  (onClick)="confirmComplete(reservation.id)"
+                  [style]="{ 'margin-right': '0.5rem' }"
+                  pTooltip="Mark as Completed"
+                  tooltipPosition="top"
+                ></p-button>
                 <p-button *ngIf="reservation.status === 'CONFIRMED'"
                           icon="pi pi-power-off"
                           styleClass="p-button-danger p-button-sm"
@@ -80,7 +92,7 @@
         <div class="p-message p-message-info mt-5" style="display: block;">
           <div class="p-message-wrapper">
             <span class="p-message-icon pi pi-info-circle"></span>
-            <span class="p-message-text">You currently have no active or completed reservations.</span>
+            <span class="p-message-text">You currently have no reservations.</span>
           </div>
         </div>
       </ng-template>
